@@ -39,8 +39,9 @@ return {
         lualine_x = {
           'fileformat',
           'encoding',
-          -- LualineUtil.indent(),
+          LualineUtil.codeium(),
           LualineUtil.lspinfo(),
+          -- LualineUtil.indent(),
         },
         lualine_y = {
           'progress',

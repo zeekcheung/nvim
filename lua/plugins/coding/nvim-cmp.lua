@@ -18,7 +18,7 @@ return {
 
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
-    local defaults = require 'cmp.config.default' ()
+    local defaults = require 'cmp.config.default'()
     -- local border_opts = {
     -- 	border = "rounded",
     -- 	-- winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",

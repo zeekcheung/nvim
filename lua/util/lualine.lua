@@ -61,11 +61,10 @@ function M.codeium()
   return {
     'vim.fn["codeium#GetStatusString"]()',
     fmt = function(str)
-      return icons.Codeium .. str
+      return icons.kinds.Codeium .. str
     end,
     cond = function()
-      -- return package.loaded["codeium"]
-      return package.loaded['codeium']
+      return vim.g.codeium_plugin_enabled
     end,
     on_click = function()
       if vim.fn['codeium#GetStatusString']() == 'OFF' then
