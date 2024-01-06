@@ -34,7 +34,6 @@ return {
       local Terminal = require('toggleterm.terminal').Terminal
 
       local lazygit = Terminal:new {
-        cmd = 'cd ' .. vim.fn.getcwd() .. ' && lazygit',
         hidden = true,
         direction = 'float',
         -- function to run on opening the terminal
@@ -49,7 +48,7 @@ return {
       }
 
       function _lazygit_toggle()
-        lazygit.dir = vim.fn.getcwd()
+        lazygit.cmd = 'cd ' .. vim.fn.getcwd() .. ' && lazygit'
         lazygit:toggle()
       end
 
