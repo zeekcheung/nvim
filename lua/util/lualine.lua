@@ -3,6 +3,15 @@ local M = {}
 
 local icons = require('util').icons
 
+function M.branch()
+  return {
+    'branch',
+    on_click = function()
+      vim.cmd 'Telescope git_branches'
+    end,
+  }
+end
+
 function M.diagnostics()
   return {
     'diagnostics',

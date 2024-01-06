@@ -88,8 +88,6 @@ return {
 
     window = {
       mappings = {
-        ['H'] = 'prev_source',
-        ['L'] = 'next_source',
         ['<Tab>'] = 'prev_source',
         ['<S-Tab>'] = 'next_source',
         ['s'] = 'none', -- disable default mappings

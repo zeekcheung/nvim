@@ -31,6 +31,8 @@ map({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = t
 
 -- Buffers
 map('n', '<leader>bd', ':bd<cr>', { desc = 'Delete current buffer' })
+map('n', '<Tab>', ':bn', { desc = 'Next buffer' })
+map('n', '<S-Tab>', ':bp', { desc = 'Next buffer' })
 
 -- Move to window using the <ctrl> hjkl keys
 map('n', '<C-h>', '<C-w>h', { desc = 'Go to left window', remap = true })
@@ -82,6 +84,14 @@ map({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 -- Select all
 map({ 'n', 'v', 'x', 'i' }, '<C-a>', 'ggVG', { desc = 'Select All' })
 
+-- Toggle
+map('n', '<leader>uc', UiUtil.toggle_conceal, { desc = 'Toggle conceal' })
+map('n', '<leader>ub', UiUtil.toggle_background, { desc = 'Toggle background' })
+map('n', '<leader>us', UiUtil.toggle_signcolumn, { desc = 'Toggle signcolumn' })
+map('n', '<leader>ul', UiUtil.toggle_line_number, { desc = 'Change line number' })
+map('n', '<leader>uu', UiUtil.toggle_foldcolumn, { desc = 'Toggle foldcolumn' })
+map('n', '<leader>uH', UiUtil.toggle_ts_hightlight, { desc = 'Toggle Treesitter Highlight' })
+
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map('n', 'n', "'Nn'[v:searchforward].'zv'", { expr = true, desc = 'Next search result' })
 map('x', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next search result' })
@@ -89,10 +99,3 @@ map('o', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next search result
 map('n', 'N', "'nN'[v:searchforward].'zv'", { expr = true, desc = 'Prev search result' })
 map('x', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result' })
 map('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result' })
-
-map('n', '<leader>uc', UiUtil.toggle_conceal, { desc = 'Toggle conceal' })
-map('n', '<leader>ub', UiUtil.toggle_background, { desc = 'Toggle background' })
-map('n', '<leader>us', UiUtil.toggle_signcolumn, { desc = 'Toggle signcolumn' })
-map('n', '<leader>ul', UiUtil.toggle_line_number, { desc = 'Change line number' })
-map('n', '<leader>uu', UiUtil.toggle_foldcolumn, { desc = 'Toggle foldcolumn' })
-map('n', '<leader>uH', UiUtil.toggle_ts_hightlight, { desc = 'Toggle Treesitter Highlight' })

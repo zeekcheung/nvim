@@ -2,8 +2,6 @@
 -- Setting Autocmds
 -- See `:h autocmd` for more info
 
-local Util = require 'util'
-
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
@@ -77,14 +75,3 @@ autocmd({ 'BufWritePre' }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
   end,
 })
-
--- Use Powershell as default shell on Windows
-if Util.is_win() then
-  vim.opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh' or 'Powershell'
-  vim.opt.shellcmdflag =
-  '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
-  vim.opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
-  vim.opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-  vim.opt.shellquote = ''
-  vim.opt.shellxquote = ''
-end

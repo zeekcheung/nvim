@@ -71,6 +71,18 @@ opt.foldlevel = 99
 opt.foldmethod = 'expr'
 opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
+local is_windows = require('util').is_win()
+
+-- Change default shell to Powershell on Windows
+if is_windows then
+  opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh' or 'Powershell'
+  opt.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+  opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
+  opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+  opt.shellquote = ''
+  opt.shellxquote = ''
+end
+
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
 
@@ -79,8 +91,3 @@ vim.g.markdown_recommended_style = 0
 for _, provider in ipairs { 'node', 'perl', 'python3', 'ruby' } do
   vim.g['loaded_' .. provider .. '_provider'] = 0
 end
-
--- Add binaries installed by mason.nvim to path
--- See `:h vim.env` for more info
-local is_windows = vim.loop.os_uname().sysname == 'Windows_NT'
-vim.env.PATH = vim.fn.stdpath 'data' .. '/mason/bin' .. (is_windows and ';' or ':') .. vim.env.PATH
