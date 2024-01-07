@@ -5,6 +5,16 @@ return {
   'nvim-telescope/telescope.nvim',
   cmd = 'Telescope',
   version = false, -- telescope did only one release, so use HEAD for now
+  init = function()
+    -- Avoid selected file opens in insert mode directly
+    vim.api.nvim_create_autocmd('WinLeave', {
+      callback = function()
+        if vim.bo.ft == 'TelescopePrompt' and vim.fn.mode() == 'i' then
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'i', false)
+        end
+      end,
+    })
+  end,
   dependencies = {
     {
       'nvim-telescope/telescope-fzf-native.nvim',
