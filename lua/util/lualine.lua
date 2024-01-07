@@ -42,17 +42,48 @@ function M.lspinfo()
   return {
     function()
       local names = {}
-      for i, server in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
+
+      -- Get all active language servers
+      local servers = vim.lsp.get_active_clients { bufnr = 0 }
+      for _, server in pairs(servers) do
         table.insert(names, server.name)
       end
-      if next(names) == nil then
-        return 'Not Active Lsp'
-      else
-        return ' ' .. table.concat(names, ' ')
-      end
+
+      return table.concat(names, ',')
     end,
     on_click = function()
       vim.cmd 'LspInfo'
+    end,
+  }
+end
+
+function M.formatters()
+  return {
+    function()
+      -- Get all active formatters
+      local formatters = ''
+      local conform_ok, conform = pcall(require, 'conform')
+      if conform_ok then
+        formatters = table.concat(conform.list_formatters_for_buffer(), ',')
+      end
+      return formatters
+    end,
+    on_click = function()
+      vim.cmd 'ConformInfo'
+    end,
+  }
+end
+
+function M.linters()
+  return {
+    function()
+      -- Get all active linters
+      local linters = ''
+      local lint_ok, lint = pcall(require, 'lint')
+      if lint_ok then
+        linters = table.concat(lint.linters().names, ',')
+      end
+      return linters
     end,
   }
 end
@@ -67,11 +98,7 @@ function M.codeium()
       return vim.g.codeium_plugin_enabled
     end,
     on_click = function()
-      if vim.fn['codeium#GetStatusString']() == 'OFF' then
-        vim.cmd 'CodeiumEnable'
-      else
-        vim.cmd 'CodeiumDisable'
-      end
+      vim.cmd 'CodeiumToggle'
     end,
   }
 end

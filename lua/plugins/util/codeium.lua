@@ -2,8 +2,8 @@ vim.g.codeium_plugin_enabled = true
 
 return {
   'Exafunction/codeium.vim',
-  enablde = vim.g.codeium_plugin_enabled,
-  event = { 'BufReadPre', 'BufNewFile' },
+  enabled = vim.g.codeium_plugin_enabled,
+  event = { 'VeryLazy' },
   -- stylua: ignore
   config = function (_, opts)
     vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true, silent = true })

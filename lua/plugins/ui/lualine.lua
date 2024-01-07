@@ -37,10 +37,12 @@ return {
           -- '%=',
         },
         lualine_x = {
-          'fileformat',
-          'encoding',
           LualineUtil.codeium(),
           LualineUtil.lspinfo(),
+          LualineUtil.formatters(),
+          LualineUtil.linters(),
+          'encoding',
+          'fileformat',
           -- LualineUtil.indent(),
         },
         lualine_y = {
