@@ -29,31 +29,6 @@ autocmd({ 'VimResized' }, {
   end,
 })
 
--- Close some filetypes with <q>
-autocmd('FileType', {
-  group = augroup('close_with_q', { clear = true }),
-  pattern = {
-    'PlenaryTestPopup',
-    'help',
-    'lspinfo',
-    'man',
-    'notify',
-    'qf',
-    'query',
-    'spectre_panel',
-    'startuptime',
-    'tsplayground',
-    'neotest-output',
-    'checkhealth',
-    'neotest-summary',
-    'neotest-output-panel',
-  },
-  callback = function(event)
-    vim.bo[event.buf].buflisted = false
-    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
-  end,
-})
-
 -- Wrap and check for spell in text filetypes
 autocmd('FileType', {
   group = augroup('wrap_spell', { clear = true }),
@@ -73,5 +48,18 @@ autocmd({ 'BufWritePre' }, {
     end
     local file = vim.loop.fs_realpath(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
+  end,
+})
+
+-- Auto change background based on the time of day
+autocmd('VimEnter', {
+  group = augroup('change_background', { clear = true }),
+  callback = function()
+    local hour = tonumber(os.date '%H')
+    if hour >= 9 and hour < 18 then
+      vim.cmd 'set background=light'
+    else
+      vim.cmd 'set background=dark'
+    end
   end,
 })
