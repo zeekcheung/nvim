@@ -19,10 +19,6 @@ return {
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
     local defaults = require 'cmp.config.default'()
-    -- local border_opts = {
-    -- 	border = "rounded",
-    -- 	-- winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-    -- }
 
     return {
       completion = {
@@ -35,8 +31,14 @@ return {
         end,
       },
       -- window = {
-      --   completion = cmp.config.window.bordered(border_opts),
-      --   documentation = cmp.config.window.bordered(border_opts),
+      --   completion = {
+      --     border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+      --     winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+      --   },
+      --   documentation = {
+      --     border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+      --     winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+      --   },
       -- },
       mapping = cmp.mapping.preset.insert {
         ['<CR>'] = cmp.mapping.confirm { select = false },
