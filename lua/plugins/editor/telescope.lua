@@ -69,8 +69,9 @@ return {
     { '<leader>fk', '<cmd>Telescope keymaps<cr>', desc = 'Key Maps' },
     -- { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
     -- { "<leader>fM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
-    { '<leader>fo', '<cmd>Telescope oldfiles<cr>', desc = 'Recent' },
+    { '<leader>fo', '<cmd>Telescope oldfiles<cr>', desc = 'Recent Files' },
     { '<leader>fr', '<cmd>Telescope registers<cr>', desc = 'Registers' },
+    { '<leader>fw', '<cmd>Telescope live_grep<cr>', desc = 'Words' },
     -- git
     { '<leader>gb', '<cmd>Telescope git_branches<CR>', desc = 'branches' },
     { '<leader>gc', '<cmd>Telescope git_commits<CR>', desc = 'commits' },

@@ -4,15 +4,8 @@ return {
   event = 'VimEnter',
   dependencies = 'akinsho/bufferline.nvim',
   init = function()
-    -- Hide the cmdline before DashboardLoaded
-    vim.opt.cmdheight = 0
-
-    vim.api.nvim_create_autocmd('User', {
-      pattern = 'DashboardLoaded',
-      callback = function()
-        vim.opt.cmdheight = 1
-      end,
-    })
+    vim.opt.ruler = false
+    vim.opt.showcmd = false
   end,
   opts = function()
     local logo = [[

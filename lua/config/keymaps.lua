@@ -77,12 +77,17 @@ map('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
 -- Quit
 map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit all' })
 map({ 'n', 'v', 'x' }, '<leader>qw', '<cmd>exit<cr>', { desc = 'Quit current window' })
+map({ 'n', 'v', 'x' }, 'q', '<cmd>exit<cr>', { desc = 'Quit current window' })
 
 -- Save file
 map({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 
 -- Select all
 map({ 'n', 'v', 'x', 'i' }, '<C-a>', 'ggVG', { desc = 'Select All' })
+
+-- Split
+map('n', '|', '<cmd>split<cr>', { desc = 'Horizontal Split' })
+map('n', '\\', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
 
 -- Toggle
 map('n', '<leader>uc', UiUtil.toggle_conceal, { desc = 'Toggle conceal' })
