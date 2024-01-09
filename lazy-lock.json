@@ -12,6 +12,7 @@
   "conform.nvim": { "branch": "master", "commit": "0e61fc88f725b4411e63b43470a397c6102534c7" },
   "dashboard-nvim": { "branch": "master", "commit": "63df28409d940f9cac0a925df09d3dc369db9841" },
   "dressing.nvim": { "branch": "master", "commit": "94b0d24483d56f3777ee0c8dc51675f21709318c" },
+  "everforest": { "branch": "master", "commit": "72f101bd63228a1a45012325e39c5280ec22c828" },
   "fidget.nvim": { "branch": "main", "commit": "a4a7edfea37e557dbff5509ee374ffb57051bba9" },
   "flash.nvim": { "branch": "main", "commit": "48817af25f51c0590653bbc290866e4890fe1cbe" },
   "friendly-snippets": { "branch": "main", "commit": "53d3df271d031c405255e99410628c26a8f0d2b0" },

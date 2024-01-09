@@ -21,8 +21,8 @@ end
 
 --- Toggle background="dark"|"light"
 function M.toggle_background()
-  vim.go.background = vim.go.background == 'light' and 'dark' or 'light'
-  vim.notify(string.format('background=%s', vim.go.background))
+  vim.o.background = vim.o.background == 'light' and 'dark' or 'light'
+  -- vim.notify(string.format('background=%s', vim.o.background))
 end
 
 --- Toggle showtabline=2|0

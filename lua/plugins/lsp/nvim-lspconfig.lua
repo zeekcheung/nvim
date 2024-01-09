@@ -15,18 +15,18 @@ return {
         return Util.has 'nvim-cmp'
       end,
     },
-    { 'j-hui/fidget.nvim', opts = {} },
+    { 'j-hui/fidget.nvim', opts = { notification = { window = { winblend = 0 } } } },
   },
   opts = {
     -- Options for vim.diagnostic.config()
     diagnostics = {
       underline = true,
       update_in_insert = false,
-      -- virtual_text = {
-      --   spacing = 4,
-      --   source = 'if_many',
-      --   prefix = '●',
-      -- },
+      virtual_text = {
+        spacing = 4,
+        source = 'if_many',
+        -- prefix = '●',
+      },
       severity_sort = true,
       float = {
         header = false,
@@ -66,7 +66,6 @@ return {
       },
     },
     -- Do any additional lsp server setup here
-    -- return true if you don't want this server to be setup with lspconfig
     setup = {
       -- example to setup with typescript.nvim
       -- tsserver = function(_, opts)
@@ -78,11 +77,8 @@ return {
     },
   },
   config = function(_, opts)
-    -- LspUtil.autoformat = opts.autoformat
-
-    -- Setup autoformat and keymaps on LspAttach
+    -- Setup keymaps on LspAttach
     LspUtil.on_lsp_attach(function(client, buffer)
-      -- Util.setup_autoformat(client, buffer)
       LspUtil.setup_lsp_keymaps(client, buffer)
     end)
 
@@ -93,18 +89,6 @@ return {
       vim.fn.sign_define(name, { text = icon, texthl = name, numhl = '' })
     end
 
-    -- Setup diagnostics virtual text
-    -- if type(opts.diagnostics.virtual_text) == 'table' and opts.diagnostics.virtual_text.prefix == 'icons' then
-    --   opts.diagnostics.virtual_text.prefix = vim.fn.has 'nvim-0.10.0' == 0 and '●'
-    --     or function(diagnostic)
-    --       for d, icon in pairs(diagnostics_icons) do
-    --         if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-    --           return icon
-    --         end
-    --       end
-    --     end
-    -- end
-
     -- Setup other diagnostics options
     vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
@@ -114,8 +98,24 @@ return {
 
     -- Setup language server with `opts.setup`
     local setup_server = function(server)
+      local border = {
+        { '╭', 'FloatBorder' },
+        { '─', 'FloatBorder' },
+        { '╮', 'FloatBorder' },
+        { '│', 'FloatBorder' },
+        { '╯', 'FloatBorder' },
+        { '─', 'FloatBorder' },
+        { '╰', 'FloatBorder' },
+        { '│', 'FloatBorder' },
+      }
+
       local server_opts = vim.tbl_deep_extend('force', {
         capabilities = vim.deepcopy(capabilities),
+        -- Setup borders for hover and signature help
+        -- handlers = {
+        --   ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+        --   ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+        -- },
       }, servers[server] or {})
 
       if opts.setup[server] then

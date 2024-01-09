@@ -5,10 +5,36 @@
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
--- Check if we need to reload the file when it changed
-autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
-  group = augroup('checktime', { clear = true }),
-  command = 'checktime',
+-- Auto setup colorscheme
+autocmd({ 'VimEnter' }, {
+  group = augroup('auto_setup_colorscheme', { clear = true }),
+  callback = function()
+    -- Setup background based on time
+    local hour = tonumber(os.date '%H')
+    if hour >= 9 and hour < 18 then
+      vim.o.background = 'light'
+    else
+      vim.o.background = 'dark'
+    end
+
+    -- Setup colorscheme
+    -- vim.cmd [[colorscheme everforest]]
+    -- vim.cmd [[colorscheme catppuccin]]
+    vim.cmd [[colorscheme gruvbox-material]]
+
+    -- Change float boarder highlight
+    vim.cmd [[highlight! link NormalFloat Normal]]
+    vim.cmd [[highlight! link FloatBorder Normal]]
+  end,
+})
+
+-- Auto change float boarder highlight
+autocmd({ 'ColorScheme' }, {
+  group = augroup('change_float_highlight', { clear = true }),
+  callback = function()
+    vim.cmd [[highlight! link NormalFloat Normal]]
+    vim.cmd [[highlight! link FloatBorder Normal]]
+  end,
 })
 
 -- Highlight on yank
@@ -17,6 +43,12 @@ autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank()
   end,
+})
+
+-- Check if we need to reload the file when it changed
+autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
+  group = augroup('checktime', { clear = true }),
+  command = 'checktime',
 })
 
 -- Resize splits if window got resized
@@ -48,18 +80,5 @@ autocmd({ 'BufWritePre' }, {
     end
     local file = vim.loop.fs_realpath(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
-  end,
-})
-
--- Auto change background based on the time of day
-autocmd('VimEnter', {
-  group = augroup('change_background', { clear = true }),
-  callback = function()
-    local hour = tonumber(os.date '%H')
-    if hour >= 9 and hour < 18 then
-      vim.cmd 'set background=light'
-    else
-      vim.cmd 'set background=dark'
-    end
   end,
 })

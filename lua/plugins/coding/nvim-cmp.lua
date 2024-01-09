@@ -20,6 +20,8 @@ return {
     local luasnip = require 'luasnip'
     local defaults = require 'cmp.config.default'()
 
+    vim.api.nvim_set_hl(0, 'CmpGhostText', { link = 'Comment', default = true })
+
     return {
       completion = {
         -- completeopt = "menu,menuone,noselect",
@@ -73,6 +75,15 @@ return {
       }, {
         { name = 'buffer' },
       }),
+      formatting = {
+        format = function(_, item)
+          local icons = require('util').icons.kinds
+          if icons[item.kind] then
+            item.kind = icons[item.kind] .. item.kind
+          end
+          return item
+        end,
+      },
       experimental = {
         ghost_text = {
           hl_group = 'CmpGhostText',

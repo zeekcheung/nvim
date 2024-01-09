@@ -9,15 +9,15 @@ return {
   end,
   opts = function()
     local logo = [[
-         ██╗      █████╗ ███████╗██╗   ██╗██╗   ██╗██╗███╗   ███╗          Z
-         ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██║   ██║██║████╗ ████║      Z    
-         ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║██╔████╔██║   z       
-         ██║     ██╔══██║ ███╔╝    ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║ z         
-         ███████╗██║  ██║███████╗   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║           
-         ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝           
-    ]]
+███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
+]]
 
-    logo = string.rep('\n', 2) .. logo .. '\n'
+    logo = string.rep('\n', 3) .. logo .. '\n'
 
     local opts = {
       theme = 'doom',
@@ -32,12 +32,12 @@ return {
         header = vim.split(logo, '\n'),
           -- stylua: ignore
           center = {
-            { action = "Telescope find_files", desc = " Find file", icon = " ", key = "f" },
-            { action = "ene | startinsert", desc = " New file", icon = " ", key = "n" },
-            { action = "Telescope oldfiles", desc = " Recent files", icon = " ", key = "r" },
+            { action = "Telescope find_files", desc = " Files", icon = " ", key = "f" },
+            -- { action = "ene | startinsert", desc = " New file", icon = " ", key = "n" },
+            { action = "Telescope oldfiles", desc = " Recent", icon = " ", key = "r" },
             { action = "Telescope projects", desc = " Projects", icon = " ", key = "p" },
             { action = "lua require('util').find_configs()", desc = " Config", icon = " ", key = "c" },
-            { action = "lua require('persistence').load()", desc = " Restore Session", icon = " ", key = "s" },
+            { action = "lua require('persistence').load()", desc = " Session", icon = " ", key = "s" },
             { action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
             { action = "qa", desc = " Quit", icon = " ", key = "q" },
           },
@@ -52,7 +52,7 @@ return {
     }
 
     for _, button in ipairs(opts.config.center) do
-      button.desc = button.desc .. string.rep(' ', 43 - #button.desc)
+      button.desc = button.desc .. string.rep(' ', 40 - #button.desc)
       button.key_format = '  %s'
     end
 

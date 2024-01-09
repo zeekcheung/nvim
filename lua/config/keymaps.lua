@@ -2,7 +2,7 @@
 -- Setting Keymaps
 -- See `:h vim.keymap.set()` for more info
 
-local UiUtil = require 'util.ui'
+local Toggle = require 'util.toggle'
 
 -- Make all keymaps silent by default
 local keymap_set = vim.keymap.set
@@ -34,6 +34,12 @@ map('n', '<leader>bd', ':bd<cr>', { desc = 'Delete current buffer' })
 map('n', '<Tab>', ':bn', { desc = 'Next buffer' })
 map('n', '<S-Tab>', ':bp', { desc = 'Next buffer' })
 
+-- Copy/Cut
+map('v', '<C-c>', '"+y', { desc = 'Copy' })
+map('n', '<C-c>', '"+y', { desc = 'Copy' })
+map('v', '<C-x>', '"+d', { desc = 'Cut' })
+map('n', '<C-x>', '"+d', { desc = 'Cut' })
+
 -- Move to window using the <ctrl> hjkl keys
 map('n', '<C-h>', '<C-w>h', { desc = 'Go to left window', remap = true })
 map('n', '<C-j>', '<C-w>j', { desc = 'Go to lower window', remap = true })
@@ -63,6 +69,10 @@ map('n', '[e', diagnostic_goto(false, 'ERROR'), { desc = 'Prev Error' })
 map('n', ']w', diagnostic_goto(true, 'WARN'), { desc = 'Next Warning' })
 map('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Prev Warning' })
 
+-- Goto link
+map('n', '<S-h>', '^', { desc = 'Goto start of line' })
+map('n', '<S-l>', '$', { desc = 'Goto end of line' })
+
 -- Lazy
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
 
@@ -90,12 +100,16 @@ map('n', '|', '<cmd>split<cr>', { desc = 'Horizontal Split' })
 map('n', '\\', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
 
 -- Toggle
-map('n', '<leader>uc', UiUtil.toggle_conceal, { desc = 'Toggle conceal' })
-map('n', '<leader>ub', UiUtil.toggle_background, { desc = 'Toggle background' })
-map('n', '<leader>us', UiUtil.toggle_signcolumn, { desc = 'Toggle signcolumn' })
-map('n', '<leader>ul', UiUtil.toggle_line_number, { desc = 'Change line number' })
-map('n', '<leader>uu', UiUtil.toggle_foldcolumn, { desc = 'Toggle foldcolumn' })
-map('n', '<leader>uH', UiUtil.toggle_ts_hightlight, { desc = 'Toggle Treesitter Highlight' })
+map('n', '<leader>uc', Toggle.toggle_conceal, { desc = 'Toggle conceal' })
+map('n', '<leader>ub', Toggle.toggle_background, { desc = 'Toggle background' })
+map('n', '<leader>us', Toggle.toggle_signcolumn, { desc = 'Toggle signcolumn' })
+map('n', '<leader>ul', Toggle.toggle_line_number, { desc = 'Change line number' })
+map('n', '<leader>uu', Toggle.toggle_foldcolumn, { desc = 'Toggle foldcolumn' })
+map('n', '<leader>uH', Toggle.toggle_ts_hightlight, { desc = 'Toggle Treesitter Highlight' })
+
+-- Undo
+map('n', '<C-z>', '<cmd>undo<cr>', { desc = 'Undo' })
+map('i', '<C-z>', '<cmd>undo<cr>', { desc = 'Undo' })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map('n', 'n', "'Nn'[v:searchforward].'zv'", { expr = true, desc = 'Next search result' })
