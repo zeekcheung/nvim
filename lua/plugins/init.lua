@@ -1,3 +1,6 @@
+-- NOTE:
+-- Find more plugins here: https://neovimcraft.com/
+
 return {
   -- library used by other plugins
   { 'MunifTanjim/nui.nvim', lazy = true },

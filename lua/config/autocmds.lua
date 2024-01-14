@@ -9,18 +9,18 @@ local autocmd = vim.api.nvim_create_autocmd
 autocmd({ 'VimEnter' }, {
   group = augroup('auto_setup_colorscheme', { clear = true }),
   callback = function()
-    -- Setup background based on time
-    local hour = tonumber(os.date '%H')
-    if hour >= 9 and hour < 18 then
-      vim.o.background = 'light'
-    else
-      vim.o.background = 'dark'
-    end
+    -- -- Setup background based on time
+    -- local hour = tonumber(os.date '%H')
+    -- if hour >= 9 and hour < 18 then
+    --   vim.o.background = 'light'
+    -- else
+    --   vim.o.background = 'dark'
+    -- end
 
     -- Setup colorscheme
-    -- vim.cmd [[colorscheme everforest]]
+    vim.cmd [[colorscheme everforest]]
     -- vim.cmd [[colorscheme catppuccin]]
-    vim.cmd [[colorscheme gruvbox-material]]
+    -- vim.cmd [[colorscheme gruvbox-material]]
 
     -- Change float boarder highlight
     vim.cmd [[highlight! link NormalFloat Normal]]

@@ -1,4 +1,5 @@
 vim.g.codeium_plugin_enabled = true
+vim.g.codeium_enabled = false
 
 return {
   'Exafunction/codeium.vim',

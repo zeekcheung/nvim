@@ -9,13 +9,8 @@ return {
   dependencies = {
     'mason.nvim',
     'williamboman/mason-lspconfig.nvim',
-    {
-      'hrsh7th/cmp-nvim-lsp',
-      cond = function()
-        return Util.has 'nvim-cmp'
-      end,
-    },
     { 'j-hui/fidget.nvim', opts = { notification = { window = { winblend = 0 } } } },
+    { 'folke/neodev.nvim', opts = { library = { plugins = false } } },
   },
   opts = {
     -- Options for vim.diagnostic.config()
