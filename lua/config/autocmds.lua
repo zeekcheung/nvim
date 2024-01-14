@@ -82,3 +82,14 @@ autocmd({ 'BufWritePre' }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
   end,
 })
+
+-- Remove extra new lines at the end of formatted PowerShell files
+autocmd('BufWritePost', {
+  group = augroup('powershell_newline', { clear = true }),
+  pattern = '*.ps1',
+  callback = function()
+    local winview = vim.fn.winsaveview()
+    vim.cmd [[%s/\n\%$//ge]]
+    vim.fn.winrestview(winview)
+  end,
+})

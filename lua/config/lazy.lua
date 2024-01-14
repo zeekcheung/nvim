@@ -16,12 +16,6 @@ require('lazy').setup {
   -- ui = { border = "rounded" },
   spec = {
     { import = 'plugins' },
-    { import = 'plugins.coding' },
-    { import = 'plugins.colorscheme' },
-    { import = 'plugins.editor' },
-    { import = 'plugins.lsp' },
-    { import = 'plugins.ui' },
-    { import = 'plugins.util' },
     { import = 'plugins.lang' },
   },
   defaults = {

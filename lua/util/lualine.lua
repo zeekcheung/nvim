@@ -28,6 +28,14 @@ function M.diagnostics()
   }
 end
 
+function M.filetype()
+  return {
+    function()
+      return vim.bo.filetype
+    end,
+  }
+end
+
 function M.indent()
   return {
     function()
@@ -78,12 +86,15 @@ function M.linters()
   return {
     function()
       -- Get all active linters
-      local linters = ''
+      local status = ''
       local lint_ok, lint = pcall(require, 'lint')
       if lint_ok then
-        linters = table.concat(lint.linters().names, ',')
+        local linters = lint.linters_by_ft[vim.bo.ft]
+        if linters ~= nil then
+          status = table.concat(linters, ',')
+        end
       end
-      return linters
+      return status
     end,
   }
 end

@@ -99,6 +99,14 @@ map({ 'n', 'v', 'x', 'i' }, '<C-a>', 'ggVG', { desc = 'Select All' })
 map('n', '|', '<cmd>split<cr>', { desc = 'Horizontal Split' })
 map('n', '\\', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
 
+-- Tabs
+map('n', '<leader><tab>l', ':tablast<cr>', { desc = 'Last Tab' })
+map('n', '<leader><tab>f', ':tabfirst<cr>', { desc = 'First Tab' })
+map('n', '<leader><tab><tab>', ':tabnew<cr>', { desc = 'New Tab' })
+map('n', '<leader><tab>]', ':tabnext<cr>', { desc = 'Next Tab' })
+map('n', '<leader><tab>d', ':tabclose<cr>', { desc = 'Close Tab' })
+map('n', '<leader><tab>[', ':tabprevious<cr>', { desc = 'Previous Tab' })
+
 -- Toggle
 map('n', '<leader>uc', Toggle.toggle_conceal, { desc = 'Toggle conceal' })
 map('n', '<leader>ub', Toggle.toggle_background, { desc = 'Toggle background' })

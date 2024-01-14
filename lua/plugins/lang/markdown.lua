@@ -36,15 +36,18 @@ return {
   },
 
   -- Markdown preview
-  -- HACK: markdown-preview.nvim should be installed manually on Windows
-  -- 1. Open terminal with admin privileges
-  -- 2. cd `vim.fn.stdpath("data") .. '/lazy/markdown-preview.nvim/app'`
-  -- 3. install.cmd
   {
     'iamcco/markdown-preview.nvim',
     cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
     build = function()
-      vim.fn['mkdp#util#install']()
+      local is_win = vim.loop.os_uname().sysname:find 'Windows' ~= nil
+
+      if is_win then
+        local install_path = vim.fn.stdpath 'data' .. '/lazy/markdown-preview.nvim/app'
+        vim.cmd('!cd ' .. install_path .. ' && ./install.cmd')
+      else
+        vim.fn['mkdp#util#install']()
+      end
     end,
     keys = {
       {
@@ -63,6 +66,7 @@ return {
     'lukas-reineke/headlines.nvim',
     opts = function()
       local opts = {}
+
       for _, ft in ipairs { 'markdown', 'norg', 'rmd', 'org' } do
         opts[ft] = {
           headline_highlights = {},
@@ -77,6 +81,9 @@ return {
     end,
     ft = { 'markdown', 'norg', 'rmd', 'org' },
     config = function(_, opts)
+      opts.markdown.fat_headline_upper_string = '▄'
+      opts.markdown.fat_headline_lower_string = '▀'
+
       -- PERF: schedule to prevent headlines slowing down opening a file
       vim.schedule(function()
         require('headlines').setup(opts)

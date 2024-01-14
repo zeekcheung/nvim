@@ -51,7 +51,7 @@ opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = 'block' -- Allow cursor to move where there is no text in visual block mode
 opt.wildmode = 'longest:full,full' -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
-opt.wrap = false -- Disable line wrap
+opt.wrap = true -- Enable line wrap
 opt.fillchars = {
   foldopen = '',
   foldclose = '',
@@ -75,6 +75,7 @@ local is_windows = require('util').is_win()
 
 -- Change default shell to Powershell on Windows
 if is_windows then
+  -- opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh -NoLogo' or 'Powershell'
   opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh' or 'Powershell'
   opt.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
   opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
