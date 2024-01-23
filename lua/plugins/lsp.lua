@@ -10,11 +10,7 @@ return {
     cmd = 'Mason',
     opts = {
       -- Tools listed below will be automatically installed
-      ensure_installed = {
-        'stylua',
-        'shfmt',
-        'shellcheck',
-      },
+      ensure_installed = {},
       ui = {
         icons = {
           package_pending = ' ',
@@ -86,25 +82,7 @@ return {
         timeout_ms = nil,
       },
       -- Servers listed below will be automatically installed through mason
-      servers = {
-        lua_ls = {
-          Lua = {
-            telemetry = { enable = false },
-            diagnostics = {
-              globals = { 'vim' },
-            },
-            workspace = {
-              checkThirdParty = false,
-              library = {
-                [vim.fn.expand '$VIMRUNTIME/lua'] = true,
-                [vim.fn.stdpath 'config' .. '/lua'] = true,
-              },
-              maxPreload = 100000,
-              preloadFileSize = 10000,
-            },
-          },
-        },
-      },
+      servers = {},
       -- Do any additional lsp server setup here
       setup = {
         -- example to setup with typescript.nvim
@@ -224,12 +202,7 @@ return {
       },
     },
     opts = {
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        sh = { 'shfmt' },
-        bash = { 'shfmt' },
-        zsh = { 'shfmt' },
-      },
+      formatters_by_ft = {},
       format_on_save = {
         async = false,
         timeout_ms = 1000,
@@ -243,6 +216,7 @@ return {
     'mfussenegger/nvim-lint',
     lazy = true,
     event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = { 'mason.nvim' },
     keys = {
       {
         '<leader>cl',
@@ -252,14 +226,13 @@ return {
         desc = 'Lint buffer',
       },
     },
-    config = function()
+    opts = {
+      linters_by_ft = {},
+    },
+    config = function(_, opts)
       local lint = require 'lint'
 
-      lint.linters_by_ft = {
-        sh = { 'shellcheck' },
-        bash = { 'shellcheck' },
-        zsh = { 'shellcheck' },
-      }
+      lint.linters_by_ft = opts.linters_by_ft
 
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
 
@@ -267,9 +240,14 @@ return {
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
         callback = function()
-          require('lint').try_lint()
+          lint.try_lint()
         end,
       })
+
+      -- Custom command
+      vim.api.nvim_create_user_command('LintInfo', function()
+        vim.notify(vim.inspect(lint.linters_by_ft), 'info', { title = 'Lint Info' })
+      end, {})
     end,
   },
 }

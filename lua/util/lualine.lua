@@ -96,6 +96,9 @@ function M.linters()
       end
       return status
     end,
+    on_click = function()
+      vim.cmd 'LintInfo'
+    end,
   }
 end
 

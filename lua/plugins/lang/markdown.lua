@@ -1,4 +1,5 @@
 return {
+  -- Syntax highlighting
   {
     'nvim-treesitter/nvim-treesitter',
     opts = function(_, opts)
@@ -12,25 +13,39 @@ return {
     'williamboman/mason.nvim',
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
-      vim.list_extend(opts.ensure_installed, { 'markdownlint', 'marksman' })
+      vim.list_extend(opts.ensure_installed, { 'marksman', 'markdownlint', 'prettier' })
     end,
   },
 
+  -- Language server
+  {
+    'neovim/nvim-lspconfig',
+    opts = {
+      servers = {
+        marksman = {},
+      },
+    },
+  },
+
+  -- Formatter
+  {
+    'stevearc/conform.nvim',
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        ['markdown'] = { 'prettier' },
+        ['markdown.mdx'] = { 'prettier' },
+      },
+    },
+  },
+
+  -- Linter
   {
     'mfussenegger/nvim-lint',
     optional = true,
     opts = {
       linters_by_ft = {
         markdown = { 'markdownlint' },
-      },
-    },
-  },
-
-  {
-    'neovim/nvim-lspconfig',
-    opts = {
-      servers = {
-        marksman = {},
       },
     },
   },
@@ -62,6 +77,7 @@ return {
     end,
   },
 
+  -- Horizontal highlights
   {
     'lukas-reineke/headlines.nvim',
     opts = function()

@@ -1,5 +1,5 @@
 return {
-  -- Add toml to treesitter
+  -- Syntax highlighting
   {
     'nvim-treesitter/nvim-treesitter',
     opts = function(_, opts)
@@ -9,7 +9,7 @@ return {
     end,
   },
 
-  -- Setup lspconfig
+  -- Language server
   {
     'neovim/nvim-lspconfig',
     opts = {

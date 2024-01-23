@@ -70,7 +70,39 @@ return {
     'williamboman/mason.nvim',
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
-      vim.list_extend(opts.ensure_installed, { 'eslint_d' })
+      vim.list_extend(opts.ensure_installed, { 'prettier', 'eslint_d' })
     end,
+  },
+
+  {
+    'stevearc/conform.nvim',
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        javascript = { 'prettier' },
+        javascriptreact = { 'prettier' },
+        typescript = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        vue = { 'prettier' },
+        css = { 'prettier' },
+        scss = { 'prettier' },
+        less = { 'prettier' },
+        html = { 'prettier' },
+        graphql = { 'prettier' },
+      },
+    },
+  },
+
+  {
+    'mfussenegger/nvim-lint',
+    optional = true,
+    opts = {
+      linters_by_ft = {
+        javascript = { 'eslint_d' },
+        jaavascriptreact = { 'eslint_d' },
+        typescript = { 'eslint_d' },
+        typescriptreact = { 'eslint_d' },
+      },
+    },
   },
 }

@@ -1,5 +1,5 @@
 return {
-  -- Add yaml specific modules to treesitter
+  -- Syntax highlighting
   {
     'nvim-treesitter/nvim-treesitter',
     opts = function(_, opts)
@@ -9,14 +9,7 @@ return {
     end,
   },
 
-  -- yaml schema support
-  {
-    'b0o/SchemaStore.nvim',
-    lazy = true,
-    version = false, -- last release is way too old
-  },
-
-  -- Setup lspconfig
+  -- Language server
   {
     'neovim/nvim-lspconfig',
     opts = {
@@ -68,5 +61,32 @@ return {
         end,
       },
     },
+  },
+
+  {
+    'williamboman/mason.nvim',
+    opts = function(_, opts)
+      opts.ensure_installed = opts.ensure_installed or {}
+      vim.list_extend(opts.ensure_installed, { 'prettier' })
+    end,
+  },
+
+  -- Formatter
+  {
+    'stevearc/conform.nvim',
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        json = { 'prettier' },
+        jsonc = { 'prettier' },
+      },
+    },
+  },
+
+  -- yaml schema support
+  {
+    'b0o/SchemaStore.nvim',
+    lazy = true,
+    version = false, -- last release is way too old
   },
 }

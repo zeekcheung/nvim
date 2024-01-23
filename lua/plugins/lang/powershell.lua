@@ -1,4 +1,5 @@
 return {
+  -- Language Server
   {
     'neovim/nvim-lspconfig',
     opts = {
@@ -10,5 +11,7 @@ return {
       },
     },
   },
+
+  -- Syntax highlighting
   { 'PProvost/vim-ps1', ft = 'ps1' },
 }
