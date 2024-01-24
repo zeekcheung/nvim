@@ -5,7 +5,9 @@ return {
     opts = {
       -- Make sure mason installs the server
       servers = {
-        bashls = {},
+        bashls = {
+          filetypes = { 'sh', 'zsh' },
+        },
       },
     },
   },
@@ -37,7 +39,7 @@ return {
     opts = {
       linters_by_ft = {
         sh = { 'shellcheck' },
-        zsh = { 'shellcheck' },
+        -- zsh = { 'shellcheck' },
       },
     },
   },
