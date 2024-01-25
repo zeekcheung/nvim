@@ -75,7 +75,6 @@ local is_windows = require('util').is_win()
 
 -- Change default shell to Powershell on Windows
 if is_windows then
-  -- opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh -NoLogo' or 'Powershell'
   opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh' or 'Powershell'
   opt.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
   opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
