@@ -1,5 +1,5 @@
 vim.g.codeium_plugin_enabled = true
-vim.g.codeium_enabled = true
+vim.g.codeium_enabled = false
 
 return {
 
@@ -126,13 +126,16 @@ return {
   -- Open URL under the cursor
   {
     'chrishrb/gx.nvim',
-    enabled = true,
     event = { 'BufNewFile', 'BufReadPre' },
     dependencies = { 'nvim-lua/plenary.nvim' },
-
+    cmd = { 'Browse' },
+    keys = { { 'gx', '<cmd>Browse<cr>', mode = { 'n', 'x' } } },
+    init = function()
+      vim.g.netrw_nogx = 1 -- disable netrw gx
+    end,
     config = function()
       require('gx').setup {
-        -- `sudo apt install wslu`
+        -- `sudo apt install wslu xdg-utils -y`
         open_browser_app = require('util').is_win() and 'powershell.exe' or 'xdg-open',
         -- open_browser_args = { "--background" },
         handlers = {

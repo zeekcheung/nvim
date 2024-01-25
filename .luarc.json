@@ -1,23 +1,15 @@
 {
   "runtime.version": "LuaJIT",
-  "runtime.path": [
-    "lua/?.lua",
-    "lua/?/init.lua"
-  ],
+  "runtime.path": ["lua/?.lua", "lua/?/init.lua"],
   "workspace.checkThirdParty": false,
-  "workspace.library": [
-    "$VIMRUNTIME",
-    "./lua"
+  "workspace.library": ["$VIMRUNTIME", "./lua"],
+  "diagnostics.disable": [
+    "undefined-field",
+    "param-type-mismatch",
+    "unused-local",
+    "deprecated",
+    "duplicate-set-field"
   ],
-    "diagnostics.disable": [
-      "undefined-field",
-      "param-type-mismatch",
-      "unused-local",
-      "deprecated",
-      "duplicate-set-field"
-    ],
-    "diagnostics.globals": [
-        "nvim_bufferline",
-        "_lazygit_toggle"
-    ]
+  "diagnostics.globals": ["nvim_bufferline", "_lazygit_toggle", "vim"]
 }
+
