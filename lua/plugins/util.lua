@@ -135,7 +135,7 @@ return {
     end,
     config = function()
       require('gx').setup {
-        -- `sudo apt install wslu`
+        -- `sudo apt install wslu xdg-utils -y`
         open_browser_app = require('util').is_win() and 'powershell.exe' or 'xdg-open',
         -- open_browser_args = { "--background" },
         handlers = {
