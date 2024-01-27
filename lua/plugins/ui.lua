@@ -170,9 +170,9 @@ return {
             LualineUtil.formatters(),
             LualineUtil.linters(),
             LualineUtil.filetype(),
+            LualineUtil.indent(),
             'encoding',
             'fileformat',
-            -- LualineUtil.indent(),
           },
           lualine_y = {
             'progress',

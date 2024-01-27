@@ -78,6 +78,25 @@ autocmd('FileType', {
   end,
 })
 
+-- Change indent size for different filetypes
+autocmd('FileType', {
+  group = augroup('change_options', { clear = true }),
+  pattern = { 'c', 'h', 'cpp', 'nu' },
+  callback = function()
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+  end,
+})
+
+-- Disable conceal of json
+autocmd('FileType', {
+  group = augroup('disable_conceal', { clear = true }),
+  pattern = { 'json' },
+  callback = function()
+    vim.opt_local.conceallevel = 0
+  end,
+})
+
 -- Auto create dir when saving a file, in case some intermediate directory does not exist
 autocmd({ 'BufWritePre' }, {
   group = augroup('auto_create_dir', { clear = true }),
