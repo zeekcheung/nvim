@@ -5,6 +5,16 @@
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
+-- Custom highlight group
+local function customize_highlight()
+  -- Border highlight
+  vim.cmd [[highlight! link NormalFloat Normal]]
+  vim.cmd [[highlight! link FloatBorder Normal]]
+
+  -- Split highlight
+  vim.cmd [[highlight! WinSeparator guibg=NONE guifg=#33333f]]
+end
+
 -- Auto setup colorscheme
 autocmd({ 'VimEnter' }, {
   group = augroup('auto_setup_colorscheme', { clear = true }),
@@ -22,9 +32,7 @@ autocmd({ 'VimEnter' }, {
     -- vim.cmd [[colorscheme catppuccin]]
     -- vim.cmd [[colorscheme gruvbox-material]]
 
-    -- Change float boarder highlight
-    vim.cmd [[highlight! link NormalFloat Normal]]
-    vim.cmd [[highlight! link FloatBorder Normal]]
+    customize_highlight()
   end,
 })
 
@@ -32,8 +40,7 @@ autocmd({ 'VimEnter' }, {
 autocmd({ 'ColorScheme' }, {
   group = augroup('change_float_highlight', { clear = true }),
   callback = function()
-    vim.cmd [[highlight! link NormalFloat Normal]]
-    vim.cmd [[highlight! link FloatBorder Normal]]
+    customize_highlight()
   end,
 })
 
