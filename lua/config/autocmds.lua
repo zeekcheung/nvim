@@ -28,8 +28,8 @@ autocmd({ 'VimEnter' }, {
     -- end
 
     -- Setup colorscheme
-    vim.cmd [[colorscheme everforest]]
-    -- vim.cmd [[colorscheme catppuccin]]
+    -- vim.cmd [[colorscheme everforest]]
+    vim.cmd [[colorscheme catppuccin]]
     -- vim.cmd [[colorscheme gruvbox-material]]
 
     customize_highlight()
