@@ -90,6 +90,11 @@ return {
           ghost_text = false,
         },
         sorting = defaults.sorting,
+        performance = {
+          fetching_timeout = 0,
+          confirm_resolve_timeout = 0,
+          max_view_entries = 7,
+        },
       }
     end,
     config = function(_, opts)
