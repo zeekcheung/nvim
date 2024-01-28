@@ -359,4 +359,10 @@ return {
       end
     end,
   },
+
+  -- Bracket highlight
+  {
+    'HiPhish/rainbow-delimiters.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+  },
 }
