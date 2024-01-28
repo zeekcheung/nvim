@@ -203,12 +203,21 @@ return {
     },
     opts = {
       formatters_by_ft = {},
-      format_on_save = {
-        async = false,
-        timeout_ms = 1000,
-        lsp_fallback = true,
-      },
+      lsp_ignore_filetypes = {},
     },
+    config = function(_, opts)
+      opts.format_on_save = function(bufnr)
+        local format_args = { timeout_ms = 700, quiet = true, lsp_fallback = true }
+        -- Disable lsp format for ignored filetypes
+        if vim.tbl_contains(opts.lsp_ignore_filetypes, vim.bo[bufnr].filetype) then
+          format_args.lsp_fallback = false
+          format_args.formatters = { 'trim_whitespace' }
+        end
+        return format_args
+      end
+
+      require('conform').setup(opts)
+    end,
   },
 
   -- Linters
