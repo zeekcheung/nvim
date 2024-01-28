@@ -333,6 +333,11 @@ return {
     'RRethy/vim-illuminate',
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
+      providers = {
+        'regex',
+        'lsp',
+        'treesitter',
+      },
       delay = 200,
       large_file_cutoff = 2000,
       large_file_overrides = {
