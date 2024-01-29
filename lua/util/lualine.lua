@@ -1,7 +1,7 @@
 -- NOTE: Some custom `lualine` components
 local M = {}
 
-local icons = require('util').icons
+local icons = require('util.ui').icons
 
 function M.branch()
   return {

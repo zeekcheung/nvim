@@ -1,6 +1,6 @@
-local Util = require 'util'
-local LspUtil = require 'util.lsp'
-local icons = Util.icons
+local Lsp = require 'util.lsp'
+local Ui = require 'util.ui'
+local icons = Ui.icons
 
 return {
 
@@ -96,8 +96,8 @@ return {
     },
     config = function(_, opts)
       -- Setup keymaps on LspAttach
-      LspUtil.on_lsp_attach(function(client, buffer)
-        LspUtil.setup_lsp_keymaps(client, buffer)
+      Lsp.on_lsp_attach(function(client, buffer)
+        Lsp.setup_lsp_keymaps(client, buffer)
       end)
 
       -- Setup diagnostics icons in signcolumn
@@ -175,10 +175,10 @@ return {
       end
 
       -- Avoid denols and tsserver run on the same time
-      if LspUtil.get_lsp_config 'denols' and LspUtil.get_lsp_config 'tsserver' then
+      if Lsp.get_lsp_config 'denols' and Lsp.get_lsp_config 'tsserver' then
         local is_deno = require('lspconfig.util').root_pattern('deno.json', 'deno.jsonc')
-        LspUtil.disable_lsp('tsserver', is_deno)
-        LspUtil.disable_lsp('denols', function(root_dir)
+        Lsp.disable_lsp('tsserver', is_deno)
+        Lsp.disable_lsp('denols', function(root_dir)
           return not is_deno(root_dir)
         end)
       end

@@ -10,6 +10,7 @@ local function customize_highlight()
   -- Border highlight
   vim.cmd [[highlight! link NormalFloat Normal]]
   vim.cmd [[highlight! link FloatBorder Normal]]
+  vim.cmd [[highlight! link LspInfoBorder Normal]]
 
   -- Split highlight
   vim.cmd [[highlight! WinSeparator guibg=NONE guifg=#33333f]]
@@ -28,8 +29,8 @@ autocmd({ 'VimEnter' }, {
     -- end
 
     -- Setup colorscheme
-    -- vim.cmd [[colorscheme everforest]]
-    vim.cmd [[colorscheme catppuccin]]
+    vim.cmd [[colorscheme everforest]]
+    -- vim.cmd [[colorscheme catppuccin]]
     -- vim.cmd [[colorscheme gruvbox-material]]
 
     customize_highlight()

@@ -2,7 +2,7 @@ return {
 
   {
     'sainnhe/everforest',
-    enabled = false,
+    enabled = true,
     priority = 1000,
     config = function()
       vim.g.everforest_background = 'hard'
@@ -37,7 +37,7 @@ return {
 
   {
     'catppuccin/nvim',
-    enabled = true,
+    enabled = false,
     priority = 1000,
     name = 'catppuccin',
     opts = {

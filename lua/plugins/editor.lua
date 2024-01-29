@@ -1,5 +1,6 @@
 local Util = require 'util'
-local icons = Util.icons
+local Ui = require 'util.ui'
+local icons = Ui.icons
 
 return {
 

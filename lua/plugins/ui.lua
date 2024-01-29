@@ -1,6 +1,7 @@
 local Util = require 'util'
-local LualineUtil = require 'util.lualine'
-local icons = Util.icons
+local Lualine = require 'util.lualine'
+local Ui = require 'util.ui'
+local icons = Ui.icons
 
 return {
 
@@ -95,7 +96,7 @@ return {
         indicator = { icon = '' },
         separator_style = { '', '' },
         -- stylua: ignore
-        close_command = function(n) require("mini.bufremove").delete(n, false) end,
+close_command = function(n) require("mini.bufremove").delete(n, false) end,
         -- stylua: ignore
         right_mouse_command = function(n) require("mini.bufremove").delete(n, false) end,
         -- diagnostics = 'nvim_lsp',
@@ -156,21 +157,21 @@ return {
         sections = {
           lualine_a = { 'mode' },
           lualine_b = {
-            LualineUtil.branch(),
+            Lualine.branch(),
           },
           lualine_c = {
             { 'filetype', icon_only = true, separator = '', padding = { left = 1, right = 0 } },
             { 'filename' },
-            LualineUtil.diagnostics(),
+            Lualine.diagnostics(),
             -- '%=',
           },
           lualine_x = {
-            LualineUtil.codeium(),
-            LualineUtil.lspinfo(),
-            LualineUtil.formatters(),
-            LualineUtil.linters(),
-            LualineUtil.filetype(),
-            LualineUtil.indent(),
+            Lualine.codeium(),
+            Lualine.lspinfo(),
+            Lualine.formatters(),
+            Lualine.linters(),
+            Lualine.filetype(),
+            Lualine.indent(),
             'encoding',
             'fileformat',
           },
@@ -364,5 +365,23 @@ return {
   {
     'HiPhish/rainbow-delimiters.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
+    config = function()
+      vim.g.rainbow_delimiters = {
+        highlight = {
+          'RainbowDelimiterRed',
+          'RainbowDelimiterYellow',
+          'RainbowDelimiterGreen',
+          'RainbowDelimiterBlue',
+          'RainbowDelimiterOrange',
+          'RainbowDelimiterViolet',
+        },
+      }
+      vim.cmd 'highlight RainbowDelimiterRed guifg=#e67e80'
+      vim.cmd 'highlight RainbowDelimiterYellow guifg=#dbbc7f'
+      vim.cmd 'highlight RainbowDelimiterBlue guifg=#7fbbb3'
+      vim.cmd 'highlight RainbowDelimiterOrange guifg=#e69875'
+      vim.cmd 'highlight RainbowDelimiterGreen guifg=#a7c080'
+      vim.cmd 'highlight RainbowDelimiterViolet guifg=#d699b6'
+    end,
   },
 }

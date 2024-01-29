@@ -1,3 +1,6 @@
+local Ui = require 'util.ui'
+local icons = Ui.icons
+
 return {
 
   -- Auto completion
@@ -79,9 +82,9 @@ return {
         }),
         formatting = {
           format = function(_, item)
-            local icons = require('util').icons.kinds
-            if icons[item.kind] then
-              item.kind = icons[item.kind] .. item.kind
+            local kind_icons = icons.kinds
+            if kind_icons[item.kind] then
+              item.kind = kind_icons[item.kind] .. item.kind
             end
             return item
           end,
