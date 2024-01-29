@@ -50,7 +50,15 @@ return {
     dependencies = {
       'mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-      -- { 'j-hui/fidget.nvim', opts = { notification = { window = { winblend = 0 } } } },
+      {
+        'j-hui/fidget.nvim',
+        config = function(_, opts)
+          if vim.g.transparent_background then
+            opts.notification = { window = { winblend = 0 } }
+          end
+          require('fidget').setup(opts)
+        end,
+      },
       { 'folke/neodev.nvim', opts = { library = { plugins = false } } },
     },
     opts = {

@@ -8,19 +8,31 @@ local autocmd = vim.api.nvim_create_autocmd
 -- Custom highlight group
 local function customize_highlight()
   -- Border highlight
-  vim.cmd [[highlight! link NormalFloat Normal]]
-  vim.cmd [[highlight! link FloatBorder Normal]]
-  vim.cmd [[highlight! link LspInfoBorder Normal]]
+  vim.cmd 'highlight! link NormalFloat Normal'
+  vim.cmd 'highlight! link FloatBorder Normal'
+  vim.cmd 'highlight! link LspInfoBorder Normal'
 
   -- Split highlight
-  vim.cmd [[highlight! WinSeparator guibg=NONE guifg=#33333f]]
+  vim.cmd 'highlight! WinSeparator guibg=NONE guifg=#33333f'
+
+  -- Bracket highlight
+  vim.cmd 'highlight RainbowDelimiterRed guifg=#e67e80'
+  vim.cmd 'highlight RainbowDelimiterYellow guifg=#dbbc7f'
+  vim.cmd 'highlight RainbowDelimiterBlue guifg=#7fbbb3'
+  vim.cmd 'highlight RainbowDelimiterOrange guifg=#e69875'
+  vim.cmd 'highlight RainbowDelimiterGreen guifg=#a7c080'
+  vim.cmd 'highlight RainbowDelimiterViolet guifg=#d699b6'
+
+  -- Neotree highlight
+  vim.cmd 'highlight! link NeoTreeNormal Normal'
+  vim.cmd 'highlight! link NeoTreeEndOfBuffer Normal'
 end
 
 -- Auto setup colorscheme
 autocmd({ 'VimEnter' }, {
   group = augroup('auto_setup_colorscheme', { clear = true }),
   callback = function()
-    -- -- Setup background based on time
+    -- Setup background based on time
     -- local hour = tonumber(os.date '%H')
     -- if hour >= 9 and hour < 18 then
     --   vim.o.background = 'light'

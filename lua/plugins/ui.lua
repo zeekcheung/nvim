@@ -314,16 +314,21 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
         lsp_doc_border = true,
         inc_rename = true,
       },
-      views = {
-        mini = {
-          win_options = {
-            -- transparent background
-            winblend = 0,
-          },
-        },
-      },
+      views = {},
       -- cmdline = { view = 'cmdline' },
     },
+    config = function(_, opts)
+      -- transparent background
+      if vim.g.transparent_background then
+        opts.views.mini = {
+          win_options = {
+            winblend = 0,
+          },
+        }
+      end
+
+      require('noice').setup(opts)
+    end,
   },
 
   {
@@ -337,10 +342,17 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
         desc = 'Dismiss all Notifications',
       },
     },
+    init = function()
+      -- when noice is not enabled, install notify on VeryLazy
+      if not Util.has 'noice.nvim' then
+        Util.on_very_lazy(function()
+          vim.notify = require 'notify'
+        end)
+      end
+    end,
     opts = {
       timeout = 2000,
       top_down = false,
-      background_colour = '#000000',
       max_height = function()
         return math.floor(vim.o.lines * 0.75)
       end,
@@ -351,13 +363,12 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
         vim.api.nvim_win_set_config(win, { zindex = 100 })
       end,
     },
-    init = function()
-      -- when noice is not enabled, install notify on VeryLazy
-      if not Util.has 'noice.nvim' then
-        Util.on_very_lazy(function()
-          vim.notify = require 'notify'
-        end)
+    config = function(_, opts)
+      if vim.g.transparent_background then
+        opts.background_colour = '#000000'
       end
+
+      require('notify').setup(opts)
     end,
   },
 
@@ -376,12 +387,6 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
           'RainbowDelimiterViolet',
         },
       }
-      vim.cmd 'highlight RainbowDelimiterRed guifg=#e67e80'
-      vim.cmd 'highlight RainbowDelimiterYellow guifg=#dbbc7f'
-      vim.cmd 'highlight RainbowDelimiterBlue guifg=#7fbbb3'
-      vim.cmd 'highlight RainbowDelimiterOrange guifg=#e69875'
-      vim.cmd 'highlight RainbowDelimiterGreen guifg=#a7c080'
-      vim.cmd 'highlight RainbowDelimiterViolet guifg=#d699b6'
     end,
   },
 }

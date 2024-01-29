@@ -7,11 +7,14 @@ return {
     config = function()
       vim.g.everforest_background = 'hard'
       vim.g.everforest_enable_italic = 1
-      vim.g.everforest_transparent_background = 2
-      vim.g.everforest_dim_inactive_windows = 1
+      -- vim.g.everforest_dim_inactive_windows = 1
       vim.g.everforest_show_eob = 0
       vim.g.everforest_diagnostic_text_highlight = 1
       vim.g.everforest_diagnostic_virtual_text = 'colored'
+
+      if vim.g.transparent_background then
+        vim.g.everforest_transparent_background = 2
+      end
     end,
   },
 
@@ -24,7 +27,6 @@ return {
       vim.g.gruvbox_material_foreground = 'material'
       vim.g.gruvbox_material_enable_bold = 1
       vim.g.gruvbox_material_enable_italic = 1
-      vim.g.gruvbox_material_transparent_background = 2
       vim.g.gruvbox_material_dim_inactive_windows = 0
       vim.g.gruvbox_material_menu_selection_background = 'green'
       vim.g.gruvbox_material_show_eob = 0
@@ -32,6 +34,10 @@ return {
       -- vim.g.gruvbox_material_diagnostic_line_highlight = 1
       vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
       vim.g.gruvbox_material_statusline_style = 'mix'
+
+      if vim.g.transparent_background then
+        vim.g.gruvbox_material_transparent_background = 2
+      end
     end,
   },
 
