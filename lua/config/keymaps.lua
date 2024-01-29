@@ -108,7 +108,7 @@ map('n', '<leader><tab>d', ':tabclose<cr>', { desc = 'Close Tab' })
 map('n', '<leader><tab>[', ':tabprevious<cr>', { desc = 'Previous Tab' })
 
 -- Toggle
-map('n', '<leader>uc', Toggle.toggle_conceal, { desc = 'Toggle conceal' })
+map('n', '<leader>uC', Toggle.toggle_conceal, { desc = 'Toggle conceal' })
 map('n', '<leader>ub', Toggle.toggle_background, { desc = 'Toggle background' })
 map('n', '<leader>us', Toggle.toggle_signcolumn, { desc = 'Toggle signcolumn' })
 map('n', '<leader>ul', Toggle.toggle_line_number, { desc = 'Change line number' })

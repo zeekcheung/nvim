@@ -2,7 +2,7 @@ return {
 
   {
     'sainnhe/everforest',
-    enabled = true,
+    enabled = false,
     priority = 1000,
     config = function()
       vim.g.everforest_background = 'hard'
@@ -43,7 +43,7 @@ return {
 
   {
     'catppuccin/nvim',
-    enabled = false,
+    enabled = true,
     priority = 1000,
     name = 'catppuccin',
     opts = {
@@ -82,6 +82,15 @@ return {
         treesitter = true,
         treesitter_context = true,
         which_key = true,
+      },
+      highlight_overrides = {
+        all = function(colors)
+          return {
+            CmpItemMenu = { bg = colors.base },
+            Pmenu = { bg = colors.base, fg = '' },
+            PmenuSel = { bg = colors.green, fg = colors.base },
+          }
+        end,
       },
     },
   },

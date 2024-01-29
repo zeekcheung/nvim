@@ -258,11 +258,13 @@ return {
       { '<leader>fr', '<cmd>Telescope registers<cr>', desc = 'Registers' },
       { '<leader>fw', '<cmd>Telescope live_grep<cr>', desc = 'Words' },
       -- git
-      { '<leader>gb', '<cmd>Telescope git_branches<CR>', desc = 'branches' },
-      { '<leader>gc', '<cmd>Telescope git_commits<CR>', desc = 'commits' },
-      { '<leader>gf', '<cmd>Telescope git_files<CR>', desc = 'files' },
-      { '<leader>gs', '<cmd>Telescope git_stash<CR>', desc = 'statsh' },
-      { '<leader>gt', '<cmd>Telescope git_status<CR>', desc = 'status' },
+      { '<leader>gb', '<cmd>Telescope git_branches<cR>', desc = 'branches' },
+      { '<leader>gc', '<cmd>Telescope git_commits<cR>', desc = 'commits' },
+      { '<leader>gf', '<cmd>Telescope git_files<cR>', desc = 'files' },
+      { '<leader>gs', '<cmd>Telescope git_stash<cR>', desc = 'statsh' },
+      { '<leader>gt', '<cmd>Telescope git_status<cR>', desc = 'status' },
+      -- Ui
+      { '<leader>uc', '<cmd>Telescope colorscheme<cr>', desc = 'Colorscheme' },
     },
   },
 

@@ -7,13 +7,23 @@ local autocmd = vim.api.nvim_create_autocmd
 
 -- Custom highlight group
 local function customize_highlight()
+  local overrided_colorschemes = {}
+  local current_colorscheme = vim.g.colorscheme
+
+  -- Override highlight groups for specfic colorschemes
+  if vim.tbl_contains(overrided_colorschemes, current_colorscheme) then
+    -- Split highlight
+    vim.cmd 'highlight! WinSeparator guibg=NONE guifg=#33333f'
+
+    -- Neotree highlight
+    vim.cmd 'highlight! link NeoTreeNormal Normal'
+    vim.cmd 'highlight! link NeoTreeEndOfBuffer Normal'
+  end
+
   -- Border highlight
   vim.cmd 'highlight! link NormalFloat Normal'
   vim.cmd 'highlight! link FloatBorder Normal'
   vim.cmd 'highlight! link LspInfoBorder Normal'
-
-  -- Split highlight
-  vim.cmd 'highlight! WinSeparator guibg=NONE guifg=#33333f'
 
   -- Bracket highlight
   vim.cmd 'highlight RainbowDelimiterRed guifg=#e67e80'
@@ -22,10 +32,6 @@ local function customize_highlight()
   vim.cmd 'highlight RainbowDelimiterOrange guifg=#e69875'
   vim.cmd 'highlight RainbowDelimiterGreen guifg=#a7c080'
   vim.cmd 'highlight RainbowDelimiterViolet guifg=#d699b6'
-
-  -- Neotree highlight
-  vim.cmd 'highlight! link NeoTreeNormal Normal'
-  vim.cmd 'highlight! link NeoTreeEndOfBuffer Normal'
 end
 
 -- Auto setup colorscheme
@@ -41,9 +47,7 @@ autocmd({ 'VimEnter' }, {
     -- end
 
     -- Setup colorscheme
-    vim.cmd [[colorscheme everforest]]
-    -- vim.cmd [[colorscheme catppuccin]]
-    -- vim.cmd [[colorscheme gruvbox-material]]
+    vim.cmd('colorscheme ' .. vim.g.colorscheme)
 
     customize_highlight()
   end,
