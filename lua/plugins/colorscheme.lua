@@ -2,15 +2,17 @@ return {
 
   {
     'sainnhe/everforest',
-    enabled = false,
+    cond = vim.g.colorscheme == 'everforest',
     priority = 1000,
     config = function()
       vim.g.everforest_background = 'hard'
       vim.g.everforest_enable_italic = 1
-      -- vim.g.everforest_dim_inactive_windows = 1
+      vim.g.everforest_dim_inactive_windows = 0
       vim.g.everforest_show_eob = 0
       vim.g.everforest_diagnostic_text_highlight = 1
       vim.g.everforest_diagnostic_virtual_text = 'colored'
+      vim.g.everforest_ui_contrast = 'high'
+      -- vim.g.everforest_colors_override = { bg0 = '#1e1e2e' }
 
       if vim.g.transparent_background then
         vim.g.everforest_transparent_background = 2
@@ -20,7 +22,7 @@ return {
 
   {
     'sainnhe/gruvbox-material',
-    enabled = false,
+    cond = vim.g.colorscheme == 'gruvbox-material',
     priority = 1000,
     config = function()
       vim.g.gruvbox_material_background = 'hard'
@@ -33,7 +35,8 @@ return {
       vim.g.gruvbox_material_diagnostic_text_highlight = 1
       -- vim.g.gruvbox_material_diagnostic_line_highlight = 1
       vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
-      vim.g.gruvbox_material_statusline_style = 'mix'
+      -- vim.g.gruvbox_material_statusline_style = 'mix'
+      vim.g.gruvbox_material_ui_contrast = 'high'
 
       if vim.g.transparent_background then
         vim.g.gruvbox_material_transparent_background = 2
@@ -43,7 +46,7 @@ return {
 
   {
     'catppuccin/nvim',
-    enabled = true,
+    cond = vim.g.colorscheme == 'catppuccin',
     priority = 1000,
     name = 'catppuccin',
     opts = {

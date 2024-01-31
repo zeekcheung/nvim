@@ -285,6 +285,8 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
   -- Better ui
   {
     'folke/noice.nvim',
+    -- enabled = vim.g.noice_enabled,
+    cond = vim.g.noice_enabled,
     event = 'VeryLazy',
     opts = {
       lsp = {

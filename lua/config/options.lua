@@ -11,7 +11,7 @@ opt.autowrite = true -- Enable auto write
 opt.backup = false -- Don't keep a backup after overwriting a file
 opt.clipboard = 'unnamedplus' -- Sync with system clipboard
 opt.completeopt = 'menu,menuone,noselect'
-opt.conceallevel = 3 -- Hide * markup for bold and italic
+opt.conceallevel = 2 -- Hide * markup for bold and italic
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.cursorline = true -- Enable highlighting of the current line
 opt.expandtab = true -- Use spaces instead of tabs
@@ -73,8 +73,11 @@ opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 local is_windows = require('util').is_win()
 
--- Change default shell to Powershell on Windows
+-- Change default shell to PowerShell on Windows
+-- NOTE: Codeium cannot use PowerShell to authenticate
+-- so we need to comment it out when we authenticate with Codeium
 if is_windows then
+  -- NOTE: We need to add PowerShell to the `PATH` for `vim.fn.executable 'pwsh'` to work
   opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh' or 'Powershell'
   opt.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
   opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
@@ -94,3 +97,11 @@ vim.g.markdown_recommended_style = 0
 
 vim.g.colorscheme = 'catppuccin'
 vim.g.transparent_background = false
+
+vim.g.codeium_plugin_enabled = true -- Enable codeium.vim plugin
+vim.g.codeium_enabled = false -- Disable codeium service
+
+vim.g.noice_enabled = false -- Disable noice plugin
+
+vim.g.cmp_custom_border = false
+vim.g.hover_custom_border = true

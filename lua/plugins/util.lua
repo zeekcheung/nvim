@@ -1,12 +1,9 @@
-vim.g.codeium_plugin_enabled = true
-vim.g.codeium_enabled = false
-
 return {
 
   -- Ai completion
   {
     'Exafunction/codeium.vim',
-    enabled = vim.g.codeium_plugin_enabled,
+    cond = vim.g.codeium_plugin_enabled,
     event = { 'VeryLazy' },
     -- stylua: ignore
     config = function (_, opts)

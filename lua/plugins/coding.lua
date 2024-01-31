@@ -27,7 +27,7 @@ return {
 
       vim.api.nvim_set_hl(0, 'CmpGhostText', { link = 'Comment', default = true })
 
-      return {
+      local opts = {
         completion = {
           -- completeopt = "menu,menuone,noselect",
           completeopt = 'menu,menuone,noinsert',
@@ -37,16 +37,7 @@ return {
             require('luasnip').lsp_expand(args.body)
           end,
         },
-        -- window = {
-        --   completion = {
-        --     border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
-        --     winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
-        --   },
-        --   documentation = {
-        --     border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
-        --     winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
-        --   },
-        -- },
+
         mapping = cmp.mapping.preset.insert {
           ['<CR>'] = cmp.mapping.confirm { select = false },
           ['<Tab>'] = cmp.mapping(function(fallback)
@@ -99,6 +90,21 @@ return {
           max_view_entries = 7,
         },
       }
+
+      if vim.g.cmp_custom_border then
+        opts.window = {
+          completion = {
+            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+          },
+          documentation = {
+            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+          },
+        }
+      end
+
+      return opts
     end,
     config = function(_, opts)
       for _, source in ipairs(opts.sources) do

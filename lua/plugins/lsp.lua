@@ -52,6 +52,8 @@ return {
       'williamboman/mason-lspconfig.nvim',
       {
         'j-hui/fidget.nvim',
+        -- enabled = not vim.g.noice_enabled,
+        cond = not vim.g.noice_enabled,
         config = function(_, opts)
           if vim.g.transparent_background then
             opts.notification = { window = { winblend = 0 } }
@@ -124,25 +126,28 @@ return {
 
       -- Setup language server with `opts.setup`
       local setup_server = function(server)
-        -- local border = {
-        --   { '╭', 'FloatBorder' },
-        --   { '─', 'FloatBorder' },
-        --   { '╮', 'FloatBorder' },
-        --   { '│', 'FloatBorder' },
-        --   { '╯', 'FloatBorder' },
-        --   { '─', 'FloatBorder' },
-        --   { '╰', 'FloatBorder' },
-        --   { '│', 'FloatBorder' },
-        -- }
+        local border = {
+          { '╭', 'FloatBorder' },
+          { '─', 'FloatBorder' },
+          { '╮', 'FloatBorder' },
+          { '│', 'FloatBorder' },
+          { '╯', 'FloatBorder' },
+          { '─', 'FloatBorder' },
+          { '╰', 'FloatBorder' },
+          { '│', 'FloatBorder' },
+        }
 
         local server_opts = vim.tbl_deep_extend('force', {
           capabilities = vim.deepcopy(capabilities),
-          -- Setup borders for hover and signature help
-          -- handlers = {
-          --   ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-          --   ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-          -- },
         }, servers[server] or {})
+
+        -- Setup borders for hover and signature help
+        if vim.g.hover_custom_border then
+          server_opts.handlers = {
+            ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+            ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+          }
+        end
 
         if opts.setup[server] then
           if opts.setup[server](server, server_opts) then

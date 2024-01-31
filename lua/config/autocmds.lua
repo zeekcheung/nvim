@@ -7,7 +7,7 @@ local autocmd = vim.api.nvim_create_autocmd
 
 -- Custom highlight group
 local function customize_highlight()
-  local overrided_colorschemes = {}
+  local overrided_colorschemes = { 'everforest', 'gruvbox-material' }
   local current_colorscheme = vim.g.colorscheme
 
   -- Override highlight groups for specfic colorschemes
@@ -107,10 +107,10 @@ autocmd('FileType', {
 
 -- Disable conceal of json
 autocmd('FileType', {
-  group = augroup('disable_conceal', { clear = true }),
-  pattern = { 'json' },
+  group = augroup('json_conceal', { clear = true }),
+  pattern = { 'json', 'jsonc', 'json5' },
   callback = function()
-    vim.opt_local.conceallevel = 0
+    vim.wo.conceallevel = 0
   end,
 })
 
