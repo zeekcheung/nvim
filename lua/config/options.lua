@@ -10,7 +10,7 @@ local opt = vim.opt
 opt.autowrite = true -- Enable auto write
 opt.backup = false -- Don't keep a backup after overwriting a file
 opt.clipboard = 'unnamedplus' -- Sync with system clipboard
-opt.completeopt = 'menu,menuone,noselect'
+opt.completeopt = 'menu,menuone,noinsert'
 opt.conceallevel = 2 -- Hide * markup for bold and italic
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.cursorline = true -- Enable highlighting of the current line
@@ -99,9 +99,9 @@ vim.g.colorscheme = 'catppuccin'
 vim.g.transparent_background = false
 
 vim.g.codeium_plugin_enabled = true -- Enable codeium.vim plugin
-vim.g.codeium_enabled = false -- Disable codeium service
+vim.g.codeium_enabled = not is_windows -- Disable codeium service
 
-vim.g.noice_enabled = false -- Disable noice plugin
+vim.g.noice_enabled = true -- Enable noice plugin
 
-vim.g.cmp_custom_border = false
-vim.g.hover_custom_border = true
+vim.g.cmp_custom_border = not vim.g.noice_enabled
+vim.g.hover_custom_border = not vim.g.noice_enabled

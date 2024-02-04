@@ -137,7 +137,7 @@ autocmd('BufWritePost', {
   end,
 })
 
--- Jumpt to last edit position when opening files
+-- Jump to last edit position when opening files
 autocmd('BufReadPost', {
   group = augroup('last_edit_position', { clear = true }),
   callback = function()

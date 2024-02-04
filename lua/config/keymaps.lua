@@ -16,8 +16,8 @@ local map = vim.keymap.set
 
 -- Better escape
 map('i', 'jj', '<esc>', { desc = 'Better Escape' })
-map('i', 'jk', '<esc>', { desc = 'Better Escape' })
-map('i', 'kk', '<esc>', { desc = 'Better Escape' })
+-- map('i', 'jk', '<esc>', { desc = 'Better Escape' })
+-- map('i', 'kk', '<esc>', { desc = 'Better Escape' })
 
 -- Better indenting
 map('v', '<', '<gv')
@@ -31,8 +31,8 @@ map({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = t
 
 -- Buffers
 map('n', '<leader>bd', ':bd<cr>', { desc = 'Delete current buffer' })
-map('n', '<Tab>', ':bn', { desc = 'Next buffer' })
-map('n', '<S-Tab>', ':bp', { desc = 'Next buffer' })
+map('n', '<Tab>', ':bn<cr>', { desc = 'Next buffer' })
+map('n', '<S-Tab>', ':bp<cr>', { desc = 'Next buffer' })
 
 -- Copy/Cut
 map('v', '<C-c>', '"+y', { desc = 'Copy' })
@@ -69,9 +69,9 @@ map('n', '[e', diagnostic_goto(false, 'ERROR'), { desc = 'Prev Error' })
 map('n', ']w', diagnostic_goto(true, 'WARN'), { desc = 'Next Warning' })
 map('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Prev Warning' })
 
--- Goto link
-map('n', '<S-h>', '^', { desc = 'Goto start of line' })
-map('n', '<S-l>', '$', { desc = 'Goto end of line' })
+-- Goto line
+-- map('n', '<S-h>', '^', { desc = 'Goto start of line' })
+-- map('n', '<S-l>', '$', { desc = 'Goto end of line' })
 
 -- Lazy
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
@@ -93,7 +93,7 @@ map({ 'n', 'v', 'x' }, 'q', '<cmd>exit<cr>', { desc = 'Quit current window' })
 map({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 
 -- Select all
-map({ 'n', 'v', 'x', 'i' }, '<C-a>', 'ggVG', { desc = 'Select All' })
+map({ 'n', 'v', 'x', 'i' }, '<C-a>', '<esc>ggVG', { desc = 'Select All' })
 
 -- Split
 map('n', '|', '<cmd>split<cr>', { desc = 'Horizontal Split' })
