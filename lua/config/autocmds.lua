@@ -7,7 +7,7 @@ local autocmd = vim.api.nvim_create_autocmd
 
 -- Custom highlight group
 local function customize_highlight()
-  local overrided_colorschemes = { 'everforest', 'gruvbox-material' }
+  local overrided_colorschemes = { 'everforest', 'gruvbox-material', 'gruvbox' }
   local current_colorscheme = vim.g.colorscheme
 
   -- Override highlight groups for specfic colorschemes

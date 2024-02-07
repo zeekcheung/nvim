@@ -233,7 +233,6 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
             click = 'v:lua.ScLa',
           },
           -- git sign
-          -- j
           {
             sign = {
               name = { 'GitSigns*' },

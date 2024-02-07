@@ -95,7 +95,7 @@ end
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
 
-vim.g.colorscheme = 'catppuccin'
+vim.g.colorscheme = 'gruvbox'
 vim.g.transparent_background = false
 
 vim.g.codeium_plugin_enabled = true -- Enable codeium.vim plugin

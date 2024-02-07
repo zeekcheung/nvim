@@ -97,4 +97,25 @@ return {
       },
     },
   },
+
+  {
+    'ellisonleao/gruvbox.nvim',
+    cond = vim.g.colorscheme == 'gruvbox',
+    priority = 1000,
+    config = true,
+    opts = {
+      contrast = 'hard',
+      overrides = {
+        SignColumn = { link = 'Normal' },
+        CursorLineNr = { bg = '' },
+        GruvboxGreenSign = { bg = '' },
+        GruvboxOrangeSign = { bg = '' },
+        GruvboxPurpleSign = { bg = '' },
+        GruvboxYellowSign = { bg = '' },
+        GruvboxRedSign = { bg = '' },
+        GruvboxBlueSign = { bg = '' },
+        GruvboxAquaSign = { bg = '' },
+      },
+    },
+  },
 }
