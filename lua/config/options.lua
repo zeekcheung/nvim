@@ -95,8 +95,9 @@ end
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
 
-vim.g.colorscheme = 'gruvbox'
-vim.g.transparent_background = false
+local transparent_colorschemes = { 'everforest', 'gruvbox-material' }
+vim.g.colorscheme = 'everforest'
+vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 
 vim.g.codeium_plugin_enabled = true -- Enable codeium.vim plugin
 vim.g.codeium_enabled = not is_windows -- Disable codeium service
@@ -105,3 +106,5 @@ vim.g.noice_enabled = true -- Enable noice plugin
 
 vim.g.cmp_custom_border = not vim.g.noice_enabled
 vim.g.hover_custom_border = not vim.g.noice_enabled
+
+vim.g.sticky_scroll = true -- Enable sticky_scroll

@@ -12,7 +12,6 @@ return {
       vim.g.everforest_diagnostic_text_highlight = 1
       vim.g.everforest_diagnostic_virtual_text = 'colored'
       vim.g.everforest_ui_contrast = 'high'
-      -- vim.g.everforest_colors_override = { bg0 = '#1e1e2e' }
 
       if vim.g.transparent_background then
         vim.g.everforest_transparent_background = 2
