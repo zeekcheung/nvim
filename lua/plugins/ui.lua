@@ -307,6 +307,11 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
           },
           view = 'mini',
         },
+        -- Show @recording messages
+        {
+          view = 'notify',
+          filter = { event = 'msg_showmode' },
+        },
       },
       presets = {
         bottom_search = true,
