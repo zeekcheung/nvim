@@ -1,6 +1,6 @@
 return {
 
-  -- Ai completion
+  -- AI completion
   {
     'Exafunction/codeium.vim',
     cond = vim.g.codeium_plugin_enabled,

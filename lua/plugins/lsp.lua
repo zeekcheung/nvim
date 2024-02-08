@@ -161,7 +161,7 @@ return {
         require('lspconfig')[server].setup(server_opts)
       end
 
-      -- Get all the servers that are available thourgh mason-lspconfig
+      -- Get all the servers that are available via mason-lspconfig
       local have_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
       local all_mason_lspconfig_servers = {}
       if have_mason_lspconfig then

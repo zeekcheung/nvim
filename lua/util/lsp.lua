@@ -56,7 +56,7 @@ end
 
 -- Setup auto format for buffer
 function M.setup_autoformat(client, buffer)
-  -- dont format if client disabled it
+  -- don't format if client disabled it
   if client.config and client.config.capabilities and client.config.capabilities.documentFormattingProvider == false then
     return
   end
