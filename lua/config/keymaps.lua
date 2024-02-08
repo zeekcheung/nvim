@@ -87,7 +87,7 @@ map('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
 -- Quit
 map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit all' })
 map({ 'n', 'v', 'x' }, '<leader>qw', '<cmd>exit<cr>', { desc = 'Quit current window' })
-map({ 'n', 'v', 'x' }, 'q', '<cmd>exit<cr>', { desc = 'Quit current window' })
+-- map({ 'n', 'v', 'x' }, 'q', '<cmd>exit<cr>', { desc = 'Quit current window' })
 
 -- Save file
 map({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
