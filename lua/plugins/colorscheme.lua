@@ -82,14 +82,14 @@ return {
         semantic_tokens = true,
         telescope = true,
         treesitter = true,
-        treesitter_context = true,
+        treesitter_context = false,
         which_key = true,
       },
       highlight_overrides = {
         all = function(colors)
           return {
-            CmpItemMenu = { bg = colors.base },
-            Pmenu = { bg = colors.base, fg = '' },
+            CmpItemMenu = { bg = colors.mantle },
+            Pmenu = { bg = colors.mantle, fg = '' },
             PmenuSel = { bg = colors.green, fg = colors.base },
           }
         end,

@@ -149,6 +149,16 @@ return {
           }
         end
 
+        -- Setup floating preview
+        local open_floating_preview = vim.lsp.util.open_floating_preview
+        vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
+          opts = opts or {}
+          -- opts.border = opts.border or 'single'
+          opts.max_width = opts.max_width or 80
+          opts.max_height = opts.max_height or 40
+          return open_floating_preview(contents, syntax, opts, ...)
+        end
+
         if opts.setup[server] then
           if opts.setup[server](server, server_opts) then
             return
