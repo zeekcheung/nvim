@@ -339,6 +339,7 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
 
   {
     'rcarriga/nvim-notify',
+    enabled = false,
     keys = {
       {
         '<leader>un',

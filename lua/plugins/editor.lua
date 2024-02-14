@@ -88,6 +88,14 @@ return {
             conflict = icons.git.conflict,
           },
         },
+        diagnostics = {
+          symbols = {
+            hint = icons.diagnostics.Hint,
+            info = icons.diagnostics.Info,
+            warn = icons.diagnostics.Warn,
+            error = icons.diagnostics.Error,
+          },
+        },
       },
 
       window = {
