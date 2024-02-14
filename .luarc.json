@@ -8,7 +8,8 @@
     "param-type-mismatch",
     "unused-local",
     "deprecated",
-    "duplicate-set-field"
+    "duplicate-set-field",
+        "redefined-local"
   ],
   "diagnostics.globals": ["nvim_bufferline", "_lazygit_toggle", "vim"]
 }
