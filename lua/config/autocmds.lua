@@ -162,6 +162,7 @@ autocmd('FileType', {
     'query',
     'spectre_panel',
     'startuptime',
+    'toggleterm',
     'tsplayground',
     'neotest-output',
     'checkhealth',
