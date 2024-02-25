@@ -114,6 +114,15 @@ autocmd('FileType', {
   end,
 })
 
+-- Change json filetype to jsonc
+autocmd({ 'BufRead', 'BufNewFile' }, {
+  group = augroup('json_to_jsonc', { clear = true }),
+  pattern = '*.json',
+  callback = function()
+    vim.bo.filetype = 'jsonc'
+  end,
+})
+
 -- Auto create dir when saving a file, in case some intermediate directory does not exist
 autocmd({ 'BufWritePre' }, {
   group = augroup('auto_create_dir', { clear = true }),
