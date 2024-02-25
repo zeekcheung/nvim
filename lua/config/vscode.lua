@@ -8,17 +8,17 @@ vim.g.maplocalleader = '\\'
 
 -- Options
 local opt = vim.opt
-opt.autowrite = true -- Enable auto write
+opt.autowrite = true          -- Enable auto write
 opt.clipboard = 'unnamedplus' -- Sync with system clipboard
-opt.expandtab = true -- Use spaces instead of tabs
+opt.expandtab = true          -- Use spaces instead of tabs
 opt.grepformat = '%f:%l:%c:%m'
 opt.grepprg = 'rg --vimgrep'
-opt.ignorecase = true -- Ignore case
+opt.ignorecase = true      -- Ignore case
 opt.inccommand = 'nosplit' -- preview incremental substitute
-opt.shiftround = true -- Round indent
-opt.shiftwidth = 2 -- Size of an indent
-opt.smartcase = true -- Don't ignore case with capitals
-opt.smartindent = true -- Insert indents automatically
+opt.shiftround = true      -- Round indent
+opt.shiftwidth = 2         -- Size of an indent
+opt.smartcase = true       -- Don't ignore case with capitals
+opt.smartindent = true     -- Insert indents automatically
 opt.spelllang = { 'en' }
 opt.swapfile = false
 opt.tabstop = 2 -- Number of spaces tabs count for
@@ -41,10 +41,6 @@ end
 
 -- stylua: ignore
 (function()
-  -- undo/redo
-  map('n', 'u', function() call 'undo' end)
-  map('n', '<C-r>', function() call 'redo' end)
-
   -- buffers/tabs
   map('n', '<tab>', function() call 'workbench.action.previousEditor' end)
   map('n', '<S-tab>', function() call 'workbench.action.nextEditor' end)
@@ -83,12 +79,33 @@ end
   -- goto
   map('n', 'gr', function() call 'references-view.findReferences' end)
 
+  -- indent
+  map('v', '>', function() call 'editor.action.indentLines' end)
+  map('v', '<', function() call 'editor.action.outdentLines' end)
+
   -- toggle
   map('n', '<leader>e', function() call 'workbench.action.toggleSidebarVisibility' end)
   map('n', '<leader>z', function() call 'workbench.action.toggleZenMode' end)
   map('n', '<leader>uc', function() call 'workbench.action.selectTheme' end)
   map('n', '<leader>up', function() call 'workbench.actions.view.problems' end)
   map('n', '<leader>uw', function() call 'editor.action.toggleWordWrap' end)
+
+  -- undo/redo
+  map('n', 'u', function() call 'undo' end)
+  map('n', '<C-r>', function() call 'redo' end)
+
+  -- window navigation
+  map({ 'n', 'x' }, '<C-h>', function() call 'workbench.action.navigateLeft' end)
+  map({ 'n', 'x' }, '<C-j>', function() call 'workbench.action.navigateDown' end)
+  map({ 'n', 'x' }, '<C-k>', function() call 'workbench.action.navigateUp' end)
+  map({ 'n', 'x' }, '<C-l>', function() call 'workbench.action.navigateRight' end)
+
+  -- clear search
+  map({ 'n', 'i' }, '<esc>', '<cmd>noh<cr><esc>')
+
+  -- quit
+  map('n', '<leader>qq', function() call 'workbench.action.closeWindow' end)
+  map({ 'n', 'v', 'x' }, '<leader>qw', function() call 'workbench.action.closeActiveEditor' end)
 end)()
 
 -- Autocmds
