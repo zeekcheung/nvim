@@ -281,7 +281,14 @@ return {
     'folke/flash.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     vscode = true,
-    opts = {},
+    opts = {
+      modes = {
+        -- disable search integration
+        search = { enabled = false },
+        -- disable default keys
+        char = { keys = {} },
+      },
+    },
     -- stylua: ignore
     keys = {
       { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,       desc = "Flash" },
