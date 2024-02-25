@@ -1,6 +1,15 @@
-require 'config.neovide'
+if vim.g.vscode then
+  -- vscode-neovim
+  require 'config.vscode'
+else
+  -- neovide
+  require 'config.neovide'
 
-require 'config.options'
-require 'config.keymaps'
-require 'config.autocmds'
+  -- neovim
+  require 'config.options'
+  require 'config.keymaps'
+  require 'config.autocmds'
+end
+
+-- plugins
 require 'config.lazy'

@@ -35,7 +35,7 @@ require('lazy').setup {
     lazy = false,
     version = false, -- always use the latest git commit
   },
-  install = { colorscheme = { 'gruvbox' } },
+  install = { colorscheme = { 'habamax' } },
   checker = {
     enabled = false,
     notify = true, -- get a notification when new updates are found
