@@ -314,14 +314,14 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
         },
       },
       presets = {
-        bottom_search = true,
-        -- command_palette = true,
+        bottom_search = false,
+        command_palette = true,
         long_message_to_split = true,
         lsp_doc_border = true,
         inc_rename = true,
       },
       views = {},
-      cmdline = { view = 'cmdline' },
+      -- cmdline = { view = 'cmdline' },
     },
     config = function(_, opts)
       -- transparent background
@@ -339,24 +339,15 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
 
   {
     'rcarriga/nvim-notify',
-    enabled = false,
+    enabled = true,
     keys = {
       {
         '<leader>un',
-        function()
-          require('notify').dismiss { silent = true, pending = true }
-        end,
+        -- stylua: ignore
+        function() require('notify').dismiss { silent = true, pending = true } end,
         desc = 'Dismiss all Notifications',
       },
     },
-    init = function()
-      -- when noice is not enabled, install notify on VeryLazy
-      if not Util.has 'noice.nvim' then
-        Util.on_very_lazy(function()
-          vim.notify = require 'notify'
-        end)
-      end
-    end,
     opts = {
       timeout = 2000,
       top_down = false,

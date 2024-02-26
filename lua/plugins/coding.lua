@@ -7,7 +7,7 @@ return {
   {
     'hrsh7th/nvim-cmp',
     version = false, -- last release is way too old
-    event = 'InsertEnter',
+    event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
@@ -117,6 +117,9 @@ return {
 
       -- `/` cmdline setup.
       cmp.setup.cmdline('/', {
+        completion = {
+          completeopt = 'menu,menuone,noselect',
+        },
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
           { name = 'buffer' },
@@ -125,6 +128,9 @@ return {
 
       -- `:` cmdline setup.
       cmp.setup.cmdline(':', {
+        completion = {
+          completeopt = 'menu,menuone,noselect',
+        },
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
           { name = 'path' },
