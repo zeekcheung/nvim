@@ -387,4 +387,43 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
       }
     end,
   },
+
+  -- Hover preview
+  {
+    'lewis6991/hover.nvim',
+    enabled = false,
+    init = function()
+      vim.o.mousemoveevent = true
+    end,
+    opts = {
+      init = function()
+        require 'hover.providers.lsp'
+      end,
+      preview_opts = {
+        -- border = 'single',
+        border = {
+          { '╭', 'FloatBorder' },
+          { '─', 'FloatBorder' },
+          { '╮', 'FloatBorder' },
+          { '│', 'FloatBorder' },
+          { '╯', 'FloatBorder' },
+          { '─', 'FloatBorder' },
+          { '╰', 'FloatBorder' },
+          { '│', 'FloatBorder' },
+        },
+      },
+      preview_window = false,
+      title = false,
+      mouse_provides = { 'LSP' },
+      mouse_delay = 1000,
+    },
+    keys = {
+      {
+        '<MouseMove>',
+        -- stylua: ignore
+        function() require('hover').hover() end,
+        desc = 'Hover preview',
+      },
+    },
+  },
 }
