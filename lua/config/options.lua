@@ -104,6 +104,7 @@ vim.g.codeium_enabled = not is_windows -- Disable codeium service
 
 vim.g.noice_enabled = true -- Enable noice plugin
 
+vim.g.border_style = 'single'
 vim.g.cmp_custom_border = false and not vim.g.noice_enabled
 vim.g.hover_custom_border = false and not vim.g.noice_enabled
 

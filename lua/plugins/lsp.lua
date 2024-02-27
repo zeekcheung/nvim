@@ -126,17 +126,6 @@ return {
 
       -- Setup language server with `opts.setup`
       local setup_server = function(server)
-        local border = {
-          { '╭', 'FloatBorder' },
-          { '─', 'FloatBorder' },
-          { '╮', 'FloatBorder' },
-          { '│', 'FloatBorder' },
-          { '╯', 'FloatBorder' },
-          { '─', 'FloatBorder' },
-          { '╰', 'FloatBorder' },
-          { '│', 'FloatBorder' },
-        }
-
         local server_opts = vim.tbl_deep_extend('force', {
           capabilities = vim.deepcopy(capabilities),
         }, servers[server] or {})
@@ -144,8 +133,8 @@ return {
         -- Setup borders for hover and signature help
         if vim.g.hover_custom_border then
           server_opts.handlers = {
-            ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-            ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+            ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = vim.g.border_style }),
+            ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = vim.g.border_style }),
           }
         end
 

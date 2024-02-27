@@ -95,11 +95,11 @@ return {
       if vim.g.cmp_custom_border then
         opts.window = {
           completion = {
-            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+            border = vim.g.border_style,
             winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
           },
           documentation = {
-            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+            border = vim.g.border_style,
             winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
           },
         }
