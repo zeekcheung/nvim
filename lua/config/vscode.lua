@@ -1,24 +1,26 @@
-local vscode = require 'vscode-neovim'
-local call = vscode.call
+local Util = require 'util'
+local Vscode = require 'vscode-neovim'
 
-vim.notify = vscode.notify
+local call = Vscode.call
+
+vim.notify = Vscode.notify
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 
 -- Options
 local opt = vim.opt
-opt.autowrite = true          -- Enable auto write
+opt.autowrite = true -- Enable auto write
 opt.clipboard = 'unnamedplus' -- Sync with system clipboard
-opt.expandtab = true          -- Use spaces instead of tabs
+opt.expandtab = true -- Use spaces instead of tabs
 opt.grepformat = '%f:%l:%c:%m'
 opt.grepprg = 'rg --vimgrep'
-opt.ignorecase = true      -- Ignore case
+opt.ignorecase = true -- Ignore case
 opt.inccommand = 'nosplit' -- preview incremental substitute
-opt.shiftround = true      -- Round indent
-opt.shiftwidth = 2         -- Size of an indent
-opt.smartcase = true       -- Don't ignore case with capitals
-opt.smartindent = true     -- Insert indents automatically
+opt.shiftround = true -- Round indent
+opt.shiftwidth = 2 -- Size of an indent
+opt.smartcase = true -- Don't ignore case with capitals
+opt.smartindent = true -- Insert indents automatically
 opt.spelllang = { 'en' }
 opt.swapfile = false
 opt.tabstop = 2 -- Number of spaces tabs count for
@@ -33,11 +35,7 @@ vim.cmd [[colorscheme vim]]
 
 -- Keymaps
 -- Make all keymaps silent by default
-local function map(mode, lhs, rhs, opts)
-  opts = opts or {}
-  opts.silent = opts.silent ~= false
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
+local map = Util.silent_map;
 
 -- stylua: ignore
 (function()

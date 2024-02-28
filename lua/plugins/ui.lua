@@ -284,7 +284,6 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
   -- Better ui
   {
     'folke/noice.nvim',
-    -- enabled = vim.g.noice_enabled,
     cond = vim.g.noice_enabled,
     event = 'VeryLazy',
     opts = {
@@ -293,6 +292,9 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
           ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
           ['vim.lsp.util.stylize_markdown'] = true,
           ['cmp.entry.get_documentation'] = true,
+        },
+        hover = {
+          silent = true, -- dont show a message if hover is not available
         },
       },
       routes = {
@@ -314,14 +316,22 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
         },
       },
       presets = {
-        bottom_search = false,
+        bottom_search = true,
         command_palette = true,
         long_message_to_split = true,
         lsp_doc_border = true,
         inc_rename = true,
       },
-      views = {},
-      -- cmdline = { view = 'cmdline' },
+      views = {
+        hover = {
+          scrollbar = not vim.g.neovide,
+          border = {
+            style = vim.g.border_style,
+            padding = { 0, 0 },
+          },
+          size = { max_width = math.floor(vim.o.columns * 0.75) },
+        },
+      },
     },
     config = function(_, opts)
       -- transparent background

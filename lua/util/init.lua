@@ -2,6 +2,14 @@ local M = {}
 
 -- NOTE: Some util functions
 
+-- Make all keymaps silent by default
+function M.silent_map(mode, lhs, rhs, opts)
+  local keymap_set = vim.keymap.set
+  opts = opts or {}
+  opts.silent = opts.silent ~= false
+  return keymap_set(mode, lhs, rhs, opts)
+end
+
 -- Check current OS if is Windows
 function M.is_win()
   return vim.loop.os_uname().sysname:find 'Windows' ~= nil

@@ -10,28 +10,34 @@ local function customize_highlight()
   local overrided_colorschemes = { 'everforest', 'gruvbox-material', 'gruvbox' }
   local current_colorscheme = vim.g.colorscheme
 
+  local get_hl = vim.api.nvim_get_hl_by_name
+  local set_hl = vim.api.nvim_set_hl
+
+  local ns_id = 0 -- Namespace id, set to 0 for global
+  local normal_hl = get_hl('Normal', true) -- Normal highlight
+
   -- Override highlight groups for specfic colorschemes
   if vim.tbl_contains(overrided_colorschemes, current_colorscheme) then
     -- Split highlight
-    vim.cmd 'highlight! WinSeparator guibg=NONE guifg=#33333f'
+    set_hl(ns_id, 'WinSeparator', { bg = 'NONE', fg = '#33333f' })
 
     -- Neotree highlight
-    vim.cmd 'highlight! link NeoTreeNormal Normal'
-    vim.cmd 'highlight! link NeoTreeEndOfBuffer Normal'
+    set_hl(ns_id, 'NeoTreeNormal', { link = 'Normal' })
+    set_hl(ns_id, 'NeoTreeEndOfBuffer', { link = 'Normal' })
   end
 
   -- Border highlight
-  vim.cmd 'highlight! link NormalFloat Normal'
-  vim.cmd 'highlight! link FloatBorder Normal'
-  vim.cmd 'highlight! link LspInfoBorder Normal'
+  set_hl(ns_id, 'NormalFloat', { link = 'Normal' })
+  set_hl(ns_id, 'LspInfoBorder', { link = 'Normal' })
+  set_hl(ns_id, 'FloatBorder', { bg = normal_hl.background, fg = '#555555' })
 
   -- Bracket highlight
-  vim.cmd 'highlight RainbowDelimiterRed guifg=#e67e80'
-  vim.cmd 'highlight RainbowDelimiterYellow guifg=#dbbc7f'
-  vim.cmd 'highlight RainbowDelimiterBlue guifg=#7fbbb3'
-  vim.cmd 'highlight RainbowDelimiterOrange guifg=#e69875'
-  vim.cmd 'highlight RainbowDelimiterGreen guifg=#a7c080'
-  vim.cmd 'highlight RainbowDelimiterViolet guifg=#d699b6'
+  set_hl(ns_id, 'RainbowDelimiterRed', { fg = '#e67e80' })
+  set_hl(ns_id, 'RainbowDelimiterYellow', { fg = '#dbbc7f' })
+  set_hl(ns_id, 'RainbowDelimiterBlue', { fg = '#7fbbb3' })
+  set_hl(ns_id, 'RainbowDelimiterOrange', { fg = '#e69875' })
+  set_hl(ns_id, 'RainbowDelimiterGreen', { fg = '#a7c080' })
+  set_hl(ns_id, 'RainbowDelimiterViolet', { fg = '#d699b6' })
 end
 
 -- Auto setup colorscheme

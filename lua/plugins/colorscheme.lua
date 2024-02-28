@@ -49,6 +49,7 @@ return {
     priority = 1000,
     name = 'catppuccin',
     opts = {
+      -- transparent_background = vim.g.transparent_background,
       integrations = {
         aerial = true,
         alpha = true,

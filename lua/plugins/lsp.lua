@@ -61,7 +61,7 @@ return {
           require('fidget').setup(opts)
         end,
       },
-      { 'folke/neodev.nvim', opts = { library = { plugins = false } } },
+      -- { 'folke/neodev.nvim', opts = { library = { plugins = {} } } },
     },
     opts = {
       -- Options for vim.diagnostic.config()

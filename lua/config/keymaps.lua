@@ -2,17 +2,11 @@
 -- Setting Keymaps
 -- See `:h vim.keymap.set()` for more info
 
+local Util = require 'util'
 local Toggle = require 'util.toggle'
 
 -- Make all keymaps silent by default
-local keymap_set = vim.keymap.set
-vim.keymap.set = function(mode, lhs, rhs, opts)
-  opts = opts or {}
-  opts.silent = opts.silent ~= false
-  return keymap_set(mode, lhs, rhs, opts)
-end
-
-local map = vim.keymap.set
+local map = Util.silent_map
 
 -- Better escape
 map('i', 'jj', '<esc>', { desc = 'Better Escape' })
@@ -34,11 +28,10 @@ map('n', '<leader>bd', ':bd<cr>', { desc = 'Delete current buffer' })
 map('n', '<Tab>', ':bn<cr>', { desc = 'Next buffer' })
 map('n', '<S-Tab>', ':bp<cr>', { desc = 'Next buffer' })
 
--- Copy/Cut
+-- Copy/Cut/Paste
 map('v', '<C-c>', '"+y', { desc = 'Copy' })
-map('n', '<C-c>', '"+y', { desc = 'Copy' })
 map('v', '<C-x>', '"+d', { desc = 'Cut' })
-map('n', '<C-x>', '"+d', { desc = 'Cut' })
+map('i', '<C-v>', '<C-r>+', { desc = 'Paste' })
 
 -- Move to window using the <ctrl> hjkl keys
 map('n', '<C-h>', '<C-w>h', { desc = 'Go to left window', remap = true })

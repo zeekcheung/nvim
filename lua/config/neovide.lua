@@ -2,23 +2,17 @@ if not vim.g.neovide then
   return
 end
 
-local function toggle_fullScreen()
-  vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen
-end
-
 -- font
 vim.o.guifont = 'JetBrainsMono Nerd Font:h16'
--- vim.g.neovide_scale_factor = 0.8
+vim.g.neovide_scale_factor = 1.0
 -- padding
 vim.g.neovide_padding_top = 0
 vim.g.neovide_padding_bottom = 0
 vim.g.neovide_padding_right = 0
 vim.g.neovide_padding_left = 0
 -- background color
--- local alpha = function() return string.format("%x", math.floor(255 * vim.g.transparency or 0.8)) end
--- vim.g.neovide_transparency = 0.0
---[[   vim.g.transparency = 1.9 ]]
--- vim.g.neovide_background_color = "#0f1117" .. alpha()
+vim.g.neovide_transparency = 1.0
+vim.g.transparent_background = vim.g.neovide_transparency ~= 1.0
 -- -- scroll animation length
 -- vim.g.neovide_scroll_animation_length = 0.3
 -- hiding the mouse when typing
@@ -64,4 +58,21 @@ vim.g.neovide_cursor_vfx_mode = 'railgun'
 -- -- particle curl
 -- vim.g.neovide_cursor_vfx_particle_curl = 1.0
 
-vim.keymap.set('n', '<F11>', toggle_fullScreen, { desc = 'Toggle full screen' })
+local map = vim.keymap.set
+
+map('v', '<C-S-c>', '"+y', { desc = 'Copy' })
+map('v', '<C-S-x>', '"+d', { desc = 'Cut' })
+map('i', '<C-S-v>', '<C-r>+', { desc = 'Paste' })
+
+map('n', '<F11>', function()
+  vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen
+end, { desc = 'Toggle full screen' });
+
+-- stylua: ignore
+(function()
+  local change_scale_factor = function(delta)
+    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+  end
+  map('n', '<C-=>', function() change_scale_factor(1.25) end, {desc = 'Zoom in'})
+  map('n', '<C-->', function() change_scale_factor(1 / 1.25) end, {desc = 'Zoom out'})
+end)()

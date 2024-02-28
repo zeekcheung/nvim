@@ -95,8 +95,9 @@ end
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
 
-local transparent_colorschemes = { 'everforest', 'gruvbox-material' }
+local transparent_colorschemes = { 'gruvbox-material' }
 vim.g.colorscheme = 'catppuccin'
+-- vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 
 vim.g.codeium_plugin_enabled = true -- Enable codeium.vim plugin
@@ -105,6 +106,8 @@ vim.g.codeium_enabled = not is_windows -- Disable codeium service
 vim.g.noice_enabled = true -- Enable noice plugin
 
 vim.g.border_style = 'single'
+-- Top left, Top edge, Top right, Right edge, Bottom right, Bottom edge, Bottom left, Left edge
+-- vim.g.border_style = { '', '', '', '', '', '', '', '' }
 vim.g.cmp_custom_border = false and not vim.g.noice_enabled
 vim.g.hover_custom_border = false and not vim.g.noice_enabled
 
