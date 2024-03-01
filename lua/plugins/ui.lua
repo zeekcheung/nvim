@@ -93,10 +93,11 @@ return {
     },
     opts = {
       options = {
+        -- mode = 'tabs',
         indicator = { icon = '' },
         separator_style = { '', '' },
         -- stylua: ignore
-close_command = function(n) require("mini.bufremove").delete(n, false) end,
+        close_command = function(n) require("mini.bufremove").delete(n, false) end,
         -- stylua: ignore
         right_mouse_command = function(n) require("mini.bufremove").delete(n, false) end,
         -- diagnostics = 'nvim_lsp',
@@ -411,16 +412,7 @@ close_command = function(n) require("mini.bufremove").delete(n, false) end,
       end,
       preview_opts = {
         -- border = 'single',
-        border = {
-          { '╭', 'FloatBorder' },
-          { '─', 'FloatBorder' },
-          { '╮', 'FloatBorder' },
-          { '│', 'FloatBorder' },
-          { '╯', 'FloatBorder' },
-          { '─', 'FloatBorder' },
-          { '╰', 'FloatBorder' },
-          { '│', 'FloatBorder' },
-        },
+        border = vim.g.border_style,
       },
       preview_window = false,
       title = false,

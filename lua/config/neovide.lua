@@ -3,7 +3,7 @@ if not vim.g.neovide then
 end
 
 -- font
-vim.o.guifont = 'JetBrainsMono Nerd Font:h16'
+vim.o.guifont = 'JetBrainsMono Nerd Font:h18'
 vim.g.neovide_scale_factor = 1.0
 -- padding
 vim.g.neovide_padding_top = 0

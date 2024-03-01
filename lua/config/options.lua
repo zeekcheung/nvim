@@ -105,7 +105,7 @@ vim.g.codeium_enabled = not is_windows -- Disable codeium service
 
 vim.g.noice_enabled = true -- Enable noice plugin
 
-vim.g.border_style = 'single'
+vim.g.border_style = 'rounded'
 -- Top left, Top edge, Top right, Right edge, Bottom right, Bottom edge, Bottom left, Left edge
 -- vim.g.border_style = { '', '', '', '', '', '', '', '' }
 vim.g.cmp_custom_border = false and not vim.g.noice_enabled
