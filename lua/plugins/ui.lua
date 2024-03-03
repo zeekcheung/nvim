@@ -154,14 +154,17 @@ return {
           disabled_filetypes = { statusline = { 'dashboard', 'alpha', 'starter' } },
           component_separators = '',
           -- section_separators = '',
+          section_separators = { left = '', right = '' },
         },
         sections = {
-          lualine_a = { 'mode' },
+          lualine_a = {
+            Lualine.mode(),
+          },
           lualine_b = {
             Lualine.branch(),
           },
           lualine_c = {
-            { 'filetype', icon_only = true, separator = '', padding = { left = 1, right = 0 } },
+            Lualine.filetype_icon(),
             { 'filename' },
             Lualine.diagnostics(),
             -- '%=',
@@ -174,13 +177,13 @@ return {
             Lualine.filetype(),
             Lualine.indent(),
             'encoding',
-            'fileformat',
+            Lualine.fileformat(),
           },
           lualine_y = {
-            'progress',
+            Lualine.progress(),
           },
           lualine_z = {
-            'location',
+            Lualine.localtion(),
           },
         },
         extensions = { 'neo-tree', 'lazy' },

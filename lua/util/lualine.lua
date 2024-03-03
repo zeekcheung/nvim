@@ -3,12 +3,30 @@ local M = {}
 
 local icons = require('util.ui').icons
 
+function M.mode()
+  return {
+    'mode',
+    separator = { right = '' },
+    padding = { left = 1, right = 0 },
+  }
+end
+
 function M.branch()
   return {
     'branch',
+    padding = { left = 1, right = 0 },
     on_click = function()
       vim.cmd 'Telescope git_branches'
     end,
+  }
+end
+
+function M.filetype_icon()
+  return {
+    'filetype',
+    icon_only = true,
+    separator = '',
+    padding = { left = 1, right = 0 },
   }
 end
 
@@ -43,6 +61,14 @@ function M.indent()
       return 'Tab:' .. shiftwidth
     end,
     padding = 1,
+  }
+end
+
+function M.fileformat()
+  return {
+    'fileformat',
+    separator = { left = '' },
+    padding = { left = 1, right = 2 },
   }
 end
 
@@ -130,6 +156,22 @@ function M.season()
 
       return status[season]
     end,
+  }
+end
+
+function M.progress()
+  return {
+    'progress',
+    separator = { left = '' },
+    padding = { left = 0, right = 1 },
+  }
+end
+
+function M.localtion()
+  return {
+    'location',
+    separator = { left = '' },
+    padding = { left = 0, right = 1 },
   }
 end
 
