@@ -41,7 +41,7 @@ return {
           center = {
             { action = "Telescope find_files", desc = " Files", icon = " ", key = "f" },
             -- { action = "ene | startinsert", desc = " New file", icon = " ", key = "n" },
-            { action = "Telescope oldfiles", desc = " Recent", icon = " ", key = "r" },
+            { action = "Telescope frecency", desc = " Recent", icon = " ", key = "r" },
             { action = "Telescope projects", desc = " Projects", icon = " ", key = "p" },
             { action = "lua require('util').find_configs()", desc = " Config", icon = " ", key = "c" },
             { action = "lua require('persistence').load()", desc = " Session", icon = " ", key = "s" },

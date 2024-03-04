@@ -1,6 +1,7 @@
 local Util = require 'util'
 local Ui = require 'util.ui'
 local icons = Ui.icons
+local map = Util.silent_map
 
 return {
 
@@ -127,7 +128,6 @@ return {
     config = function()
       local toggleterm = require 'toggleterm'
 
-      local map = vim.keymap.set
       local newterm_opts = {
         horizontal = { size = '10', key = '\\' },
         vertical = { size = '50', key = '|' },
@@ -241,14 +241,21 @@ return {
         build = 'make',
         enabled = vim.fn.executable 'make' == 1,
         config = function()
-          Util.on_load('telescope.nvim', function()
-            require('telescope').load_extension 'fzf'
-          end)
+          require('telescope').load_extension 'fzf'
+        end,
+      },
+      {
+        'nvim-telescope/telescope-frecency.nvim',
+        config = function()
+          require('telescope').load_extension 'frecency'
+
+          map('n', '<C-p>', '<cmd>Telescope frecency<cr>', { desc = 'Telescope frecency' })
+          map('n', '<leader><leader>', '<cmd>Telescope frecency workspace=CWD<cr>', { desc = 'Telescope frecency' })
         end,
       },
     },
-    opts = function()
-      return {
+    config = function()
+      require('telescope').setup {
         defaults = {
           prompt_prefix = '   ',
           selection_caret = '❯ ',
@@ -266,41 +273,35 @@ return {
           },
         },
       }
+
+      -- See `:help telescope.builtin`
+      local builtin = require 'telescope.builtin'
+      map('n', '<leader>fa', builtin.autocommands, { desc = 'Autocmds' })
+      map('n', '<leader>fb', builtin.buffers, { desc = 'Buffers' })
+      map('n', '<leader>fc', function()
+        builtin.find_files { cwd = vim.fn.stdpath 'config' }
+      end, { desc = 'Files' })
+      map('n', '<leader>fd', function()
+        builtin.diagnostics { bufnr = 0 }
+      end, { desc = 'Diagnostics' })
+      map('n', '<leader>fD', builtin.diagnostics, { desc = 'Workspace diagnostics' })
+      map('n', '<leader>ff', builtin.find_files, { desc = 'Files' })
+      map('n', '<leader>fh', builtin.help_tags, { desc = 'Help Pages' })
+      map('n', '<leader>fk', builtin.keymaps, { desc = 'Key Maps' })
+      -- map('n', '<leader>fm', builtin.marks, { desc = 'Jump to Mark' })
+      -- map('n', '<leader>fM', builtin.man_pages, { desc = 'Man Pages' })
+      map('n', '<leader>fo', builtin.oldfiles, { desc = 'Recent Files' })
+      map('n', '<leader>fr', builtin.registers, { desc = 'Registers' })
+      map('n', '<leader>fw', builtin.live_grep, { desc = 'Words' })
+      map('n', '<leader>gb', builtin.git_branches, { desc = 'Git Branches' })
+      map('n', '<leader>gc', builtin.git_commits, { desc = 'Git commits' })
+      map('n', '<leader>gf', builtin.git_files, { desc = 'Git files' })
+      map('n', '<leader>gs', builtin.git_stash, { desc = 'Git statsh' })
+      map('n', '<leader>gt', builtin.git_status, { desc = 'Git status' })
+      map('n', '<leader>uc', function()
+        builtin.colorscheme { enable_preview = true }
+      end, { desc = 'Colorscheme' })
     end,
-    keys = {
-      -- find
-      { '<leader>fa', '<cmd>Telescope autocommands<cr>', desc = 'Auto Commands' },
-      { '<leader>fb', '<cmd>Telescope buffers<cr>', desc = 'Buffer' },
-      -- stylua: ignore
-      { "<leader>fc", function() Util.find_configs() end, desc  = "Config" },
-      {
-        '<leader>fd',
-        '<cmd>Telescope diagnostics bufnr=0<cr>',
-        desc = 'Document diagnostics',
-      },
-      {
-        '<leader>fD',
-        '<cmd>Telescope diagnostics<cr>',
-        desc = 'Workspace diagnostics',
-      },
-      { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Files' },
-      { '<leader>fh', '<cmd>Telescope help_tags<cr>', desc = 'Help Pages' },
-      { '<leader>fk', '<cmd>Telescope keymaps<cr>', desc = 'Key Maps' },
-      -- { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
-      -- { "<leader>fM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
-      { '<leader>fo', '<cmd>Telescope oldfiles<cr>', desc = 'Recent Files' },
-      { '<C-p>', '<leader>fo', desc = 'Recent Files', remap = true },
-      { '<leader>fr', '<cmd>Telescope registers<cr>', desc = 'Registers' },
-      { '<leader>fw', '<cmd>Telescope live_grep<cr>', desc = 'Words' },
-      -- git
-      { '<leader>gb', '<cmd>Telescope git_branches<cR>', desc = 'branches' },
-      { '<leader>gc', '<cmd>Telescope git_commits<cR>', desc = 'commits' },
-      { '<leader>gf', '<cmd>Telescope git_files<cR>', desc = 'files' },
-      { '<leader>gs', '<cmd>Telescope git_stash<cR>', desc = 'statsh' },
-      { '<leader>gt', '<cmd>Telescope git_status<cR>', desc = 'status' },
-      -- Ui
-      { '<leader>uc', '<cmd>Telescope colorscheme<cr>', desc = 'Colorscheme' },
-    },
   },
 
   -- Quickly jump
@@ -343,19 +344,19 @@ return {
           vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
         end
 
-      -- stylua: ignore start
-      map("n", "]h", gs.next_hunk, "Next Hunk")
-      map("n", "[h", gs.prev_hunk, "Prev Hunk")
-      map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-      map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-      map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
-      map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-      map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-      map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
-      map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
-      map("n", "<leader>ghd", gs.diffthis, "Diff This")
-      map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
-      map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
+        -- stylua: ignore start
+        map("n", "]h", gs.next_hunk, "Next Hunk")
+        map("n", "[h", gs.prev_hunk, "Prev Hunk")
+        map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+        map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+        map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
+        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
+        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
+        map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
+        map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
+        map("n", "<leader>ghd", gs.diffthis, "Diff This")
+        map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
+        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
       end,
     },
   },
