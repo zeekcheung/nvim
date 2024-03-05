@@ -95,8 +95,8 @@ end
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
 
-local transparent_colorschemes = { 'gruvbox-material' }
-vim.g.colorscheme = 'catppuccin'
+local transparent_colorschemes = {}
+vim.g.colorscheme = 'tokyonight-moon'
 -- vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 

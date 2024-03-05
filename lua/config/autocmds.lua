@@ -26,6 +26,10 @@ local function customize_highlight()
     set_hl(ns_id, 'NeoTreeEndOfBuffer', { link = 'Normal' })
   end
 
+  -- Neotree
+  local neotree_normal_hl = get_hl('NeotreeNormal', true)
+  set_hl(ns_id, 'NeotreeFloatBorder', { bg = neotree_normal_hl.background })
+
   -- Border highlight
   set_hl(ns_id, 'NormalFloat', { link = 'Normal' })
   set_hl(ns_id, 'LspInfoBorder', { link = 'Normal' })

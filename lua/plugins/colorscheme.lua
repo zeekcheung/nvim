@@ -1,8 +1,13 @@
+local is_current_colorscheme = function(name)
+  local pattern = string.gsub(name, '[-+*?^$()%[%].%%]', '%%%0')
+  return string.find(vim.g.colorscheme, pattern)
+end
+
 return {
 
   {
     'sainnhe/everforest',
-    cond = vim.g.colorscheme == 'everforest',
+    cond = is_current_colorscheme 'everforest',
     priority = 1000,
     config = function()
       vim.g.everforest_background = 'hard'
@@ -21,7 +26,7 @@ return {
 
   {
     'sainnhe/gruvbox-material',
-    cond = vim.g.colorscheme == 'gruvbox-material',
+    cond = is_current_colorscheme 'gruvbox-material',
     priority = 1000,
     config = function()
       vim.g.gruvbox_material_background = 'hard'
@@ -45,7 +50,7 @@ return {
 
   {
     'catppuccin/nvim',
-    cond = vim.g.colorscheme == 'catppuccin',
+    cond = is_current_colorscheme 'catppuccin',
     priority = 1000,
     name = 'catppuccin',
     opts = {
@@ -99,23 +104,19 @@ return {
   },
 
   {
-    'ellisonleao/gruvbox.nvim',
-    cond = vim.g.colorscheme == 'gruvbox',
+    'folke/tokyonight.nvim',
+    cond = is_current_colorscheme 'tokyonight',
     priority = 1000,
-    config = true,
     opts = {
-      contrast = 'hard',
-      overrides = {
-        SignColumn = { link = 'Normal' },
-        CursorLineNr = { bg = '' },
-        GruvboxGreenSign = { bg = '' },
-        GruvboxOrangeSign = { bg = '' },
-        GruvboxPurpleSign = { bg = '' },
-        GruvboxYellowSign = { bg = '' },
-        GruvboxRedSign = { bg = '' },
-        GruvboxBlueSign = { bg = '' },
-        GruvboxAquaSign = { bg = '' },
-      },
+      transparent = vim.g.transparent_background,
+      on_highlights = function(hl, colors)
+        hl.NeoTreeTitleBar = { fg = '#000000', bg = '#7fbbb3' }
+        hl.TelescopeBorder = { fg = '#555555', bg = 'none' }
+        hl.TelescopeNormal = { bg = 'none' }
+        hl.TelescopeResultsNormal = { bg = 'none' }
+        hl.TelescopeSelection = { bg = 'none' }
+        hl.TelescopeSelectionCaret = { bg = 'none' }
+      end,
     },
   },
 }
