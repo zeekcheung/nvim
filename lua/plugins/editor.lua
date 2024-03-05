@@ -248,10 +248,11 @@ return {
         'nvim-telescope/telescope-frecency.nvim',
         config = function()
           require('telescope').load_extension 'frecency'
-
-          map('n', '<C-p>', '<cmd>Telescope frecency<cr>', { desc = 'Telescope frecency' })
-          map('n', '<leader><leader>', '<cmd>Telescope frecency workspace=CWD<cr>', { desc = 'Telescope frecency' })
         end,
+        keys = {
+          { '<C-p>', '<cmd>Telescope frecency<cr>', desc = 'Frequenty files' },
+          { '<leader><leader>', '<cmd>Telescope frecency workspace=CWD<cr>', desc = 'Frequenty files(cwd)' },
+        },
       },
     },
     config = function()
@@ -273,34 +274,36 @@ return {
           },
         },
       }
-
+    end,
+    keys = function()
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      map('n', '<leader>fa', builtin.autocommands, { desc = 'Autocmds' })
-      map('n', '<leader>fb', builtin.buffers, { desc = 'Buffers' })
-      map('n', '<leader>fc', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      end, { desc = 'Files' })
-      map('n', '<leader>fd', function()
-        builtin.diagnostics { bufnr = 0 }
-      end, { desc = 'Diagnostics' })
-      map('n', '<leader>fD', builtin.diagnostics, { desc = 'Workspace diagnostics' })
-      map('n', '<leader>ff', builtin.find_files, { desc = 'Files' })
-      map('n', '<leader>fh', builtin.help_tags, { desc = 'Help Pages' })
-      map('n', '<leader>fk', builtin.keymaps, { desc = 'Key Maps' })
-      -- map('n', '<leader>fm', builtin.marks, { desc = 'Jump to Mark' })
-      -- map('n', '<leader>fM', builtin.man_pages, { desc = 'Man Pages' })
-      map('n', '<leader>fo', builtin.oldfiles, { desc = 'Recent Files' })
-      map('n', '<leader>fr', builtin.registers, { desc = 'Registers' })
-      map('n', '<leader>fw', builtin.live_grep, { desc = 'Words' })
-      map('n', '<leader>gb', builtin.git_branches, { desc = 'Git Branches' })
-      map('n', '<leader>gc', builtin.git_commits, { desc = 'Git commits' })
-      map('n', '<leader>gf', builtin.git_files, { desc = 'Git files' })
-      map('n', '<leader>gs', builtin.git_stash, { desc = 'Git statsh' })
-      map('n', '<leader>gt', builtin.git_status, { desc = 'Git status' })
-      map('n', '<leader>uc', function()
-        builtin.colorscheme { enable_preview = true }
-      end, { desc = 'Colorscheme' })
+      -- stylua: ignore
+      return {
+        {'<leader>fa', builtin.autocommands, desc = 'Autocmds' },
+        {'<leader>fb', builtin.buffers, desc = 'Buffers' },
+        {'<leader>fc', function()
+          builtin.find_files { cwd = vim.fn.stdpath 'config' }
+        end, desc = 'Config' },
+        {'<leader>fd', function()
+          builtin.diagnostics { bufnr = 0 }
+        end, desc = 'Diagnostics' },
+        {'<leader>fD', builtin.diagnostics, desc = 'Workspace diagnostics' },
+        {'<leader>ff', builtin.find_files, desc = 'Files' },
+        {'<leader>fh', builtin.help_tags, desc = 'Help Pages' },
+        {'<leader>fk', builtin.keymaps, desc = 'Key Maps' },
+        {'<leader>fo', builtin.oldfiles, desc = 'Recent Files' },
+        {'<leader>fr', builtin.registers, desc = 'Registers' },
+        {'<leader>fw', builtin.live_grep, desc = 'Words' },
+        {'<leader>gb', builtin.git_branches, desc = 'Git Branches' },
+        {'<leader>gc', builtin.git_commits, desc = 'Git commits' },
+        {'<leader>gf', builtin.git_files, desc = 'Git files' },
+        { '<leader>gs', builtin.git_stash, desc = 'Git statsh' },
+        {'<leader>gt', builtin.git_status, desc = 'Git status' },
+        {'<leader>uc', function()
+          builtin.colorscheme { enable_preview = true }
+        end, desc = 'Colorscheme' },
+      }
     end,
   },
 
