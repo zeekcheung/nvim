@@ -10,6 +10,10 @@ vim.g.neovide_padding_top = 0
 vim.g.neovide_padding_bottom = 0
 vim.g.neovide_padding_right = 0
 vim.g.neovide_padding_left = 0
+-- floating shadow
+-- FIX: Drop shadow causes incorrect rendering of float border
+-- See: https://github.com/neovide/neovide/issues/2113
+vim.g.neovide_floating_shadow = true
 -- background color
 vim.g.neovide_transparency = 1.0
 vim.g.transparent_background = vim.g.neovide_transparency ~= 1.0
