@@ -267,7 +267,7 @@ return {
             vertical = { mirror = false },
             width = 0.87,
             height = 0.80,
-            preview_cutoff = 120,
+            preview_cutoff = 0, -- always show file preview
           },
           mappings = {
             n = { ['q'] = require('telescope.actions').close },
