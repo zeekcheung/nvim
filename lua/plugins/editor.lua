@@ -36,6 +36,8 @@ return {
       vim.g.loaded_netrwPlugin = 1
     end,
     opts = {
+      use_popups_for_input = true,
+      popup_border_style = 'NC',
       enable_git_status = true,
       sources = { 'filesystem', 'buffers', 'git_status', 'document_symbols' },
       source_selector = {
