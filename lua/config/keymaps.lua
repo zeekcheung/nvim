@@ -3,54 +3,75 @@
 -- See `:h vim.keymap.set()` for more info
 
 local Util = require 'util'
-local Toggle = require 'util.toggle'
-
--- Make all keymaps silent by default
 local map = Util.silent_map
 
 -- Better escape
 map('i', 'jj', '<esc>', { desc = 'Better Escape' })
--- map('i', 'jk', '<esc>', { desc = 'Better Escape' })
--- map('i', 'kk', '<esc>', { desc = 'Better Escape' })
 
 -- Better indenting
 map('v', '<', '<gv')
 map('v', '>', '>gv')
 
--- Better up/down
-map({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-map({ 'n', 'x' }, '<Down>', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-map({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-map({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- Better up/down when lines wrap
+map({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true })
+map({ 'n', 'x' }, '<Down>', "v:count == 0 ? 'gj' : 'j'", { expr = true })
+map({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true })
+map({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { expr = true })
 
--- Buffers
-map('n', '<leader>bd', ':bd<cr>', { desc = 'Delete current buffer' })
-map('n', '<Tab>', ':bn<cr>', { desc = 'Next buffer' })
-map('n', '<S-Tab>', ':bp<cr>', { desc = 'Next buffer' })
-
--- Copy/Cut/Paste
-map('v', '<C-c>', '"+y', { desc = 'Copy' })
-map('v', '<C-x>', '"+d', { desc = 'Cut' })
+-- Misc
+map('v', '<C-c>', '"+y', { desc = 'Copy selection' })
+map('v', '<C-x>', '"+d', { desc = 'Cut selection' })
 map('i', '<C-v>', '<C-r>+', { desc = 'Paste' })
+map({ 'n', 'i' }, '<C-z>', '<cmd>undo<cr>', { desc = 'Undo' })
+map({ 'n', 'v', 'x', 'i' }, '<C-a>', '<esc>ggVG', { desc = 'Select All' })
+map({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 
--- Move to window using the <ctrl> hjkl keys
+-- Move Lines
+map('n', '<A-j>', '<cmd>m .+1<cr>==', { desc = 'Move down' })
+map('n', '<A-k>', '<cmd>m .-2<cr>==', { desc = 'Move up' })
+map('i', '<A-j>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move down' })
+map('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move up' })
+map('v', '<A-j>', ":m '>+1<cr>gv=gv", { desc = 'Move down' })
+map('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
+
+-- Split
+map('n', '|', '<cmd>split<cr>', { desc = 'Horizontal Split' })
+map('n', '\\', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
+
+-- Window navigation
 map('n', '<C-h>', '<C-w>h', { desc = 'Go to left window', remap = true })
 map('n', '<C-j>', '<C-w>j', { desc = 'Go to lower window', remap = true })
 map('n', '<C-k>', '<C-w>k', { desc = 'Go to upper window', remap = true })
 map('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', remap = true })
 
--- Clear search, diff update and redraw
--- taken from runtime/lua/_editor.lua
-map('n', '<leader>ur', '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>', { desc = 'Redraw / clear hlsearch / diff update' })
+-- Buffers
+map('n', '<Tab>', ':bn<cr>', { desc = 'Next buffer' })
+map('n', '<S-Tab>', ':bp<cr>', { desc = 'Previous buffer' })
+map('n', '<leader>bd', ':bd<cr>', { desc = 'Delete current buffer' })
+map('n', '<leader>bo', function()
+  local current_buf = vim.fn.bufnr '%'
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if buf ~= current_buf then
+      vim.api.nvim_buf_delete(buf, { force = true })
+    end
+  end
+end, { desc = 'Delete other buffers' })
 
--- Clear search with <esc>
+-- Quit
+map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit all' })
+map({ 'n', 'v', 'x' }, '<leader>qw', '<cmd>exit<cr>', { desc = 'Quit current window' })
+
+-- Clear search
 map({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hlsearch' })
+-- Clear search, diff update and redraw
+map('n', '<leader>ur', '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>', { desc = 'Redraw / clear hlsearch / diff update' })
 
 -- Diagnostic
 local diagnostic_goto = function(next, severity)
   local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
   severity = severity and vim.diagnostic.severity[severity] or nil
   return function()
+    ---@diagnostic disable-next-line: missing-fields
     go { severity = severity }
   end
 end
@@ -62,55 +83,8 @@ map('n', '[e', diagnostic_goto(false, 'ERROR'), { desc = 'Prev Error' })
 map('n', ']w', diagnostic_goto(true, 'WARN'), { desc = 'Next Warning' })
 map('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Prev Warning' })
 
--- Goto line
--- map('n', '<S-h>', '^', { desc = 'Goto start of line' })
--- map('n', '<S-l>', '$', { desc = 'Goto end of line' })
-
 -- Lazy
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
-
--- Move Lines
-map('n', '<A-j>', '<cmd>m .+1<cr>==', { desc = 'Move down' })
-map('n', '<A-k>', '<cmd>m .-2<cr>==', { desc = 'Move up' })
-map('i', '<A-j>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move down' })
-map('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move up' })
-map('v', '<A-j>', ":m '>+1<cr>gv=gv", { desc = 'Move down' })
-map('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
-
--- Quit
-map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit all' })
-map({ 'n', 'v', 'x' }, '<leader>qw', '<cmd>exit<cr>', { desc = 'Quit current window' })
--- map({ 'n', 'v', 'x' }, 'q', '<cmd>exit<cr>', { desc = 'Quit current window' })
-
--- Save file
-map({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
-
--- Select all
-map({ 'n', 'v', 'x', 'i' }, '<C-a>', '<esc>ggVG', { desc = 'Select All' })
-
--- Split
-map('n', '|', '<cmd>split<cr>', { desc = 'Horizontal Split' })
-map('n', '\\', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
-
--- Tabs
-map('n', '<leader><tab>l', ':tablast<cr>', { desc = 'Last Tab' })
-map('n', '<leader><tab>f', ':tabfirst<cr>', { desc = 'First Tab' })
-map('n', '<leader><tab><tab>', ':tabnew<cr>', { desc = 'New Tab' })
-map('n', '<leader><tab>]', ':tabnext<cr>', { desc = 'Next Tab' })
-map('n', '<leader><tab>d', ':tabclose<cr>', { desc = 'Close Tab' })
-map('n', '<leader><tab>[', ':tabprevious<cr>', { desc = 'Previous Tab' })
-
--- Toggle
-map('n', '<leader>uC', Toggle.toggle_conceal, { desc = 'Toggle conceal' })
-map('n', '<leader>ub', Toggle.toggle_background, { desc = 'Toggle background' })
-map('n', '<leader>us', Toggle.toggle_signcolumn, { desc = 'Toggle signcolumn' })
-map('n', '<leader>ul', Toggle.toggle_line_number, { desc = 'Change line number' })
-map('n', '<leader>uu', Toggle.toggle_foldcolumn, { desc = 'Toggle foldcolumn' })
-map('n', '<leader>uH', Toggle.toggle_ts_hightlight, { desc = 'Toggle Treesitter Highlight' })
-
--- Undo
-map('n', '<C-z>', '<cmd>undo<cr>', { desc = 'Undo' })
-map('i', '<C-z>', '<cmd>undo<cr>', { desc = 'Undo' })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map('n', 'n', "'Nn'[v:searchforward].'zv'", { expr = true, desc = 'Next search result' })

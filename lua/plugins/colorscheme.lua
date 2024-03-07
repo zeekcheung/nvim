@@ -1,63 +1,14 @@
-local is_current_colorscheme = function(name)
-  local pattern = string.gsub(name, '[-+*?^$()%[%].%%]', '%%%0')
-  return string.find(vim.g.colorscheme, pattern)
-end
-
 return {
 
   {
-    'sainnhe/everforest',
-    cond = is_current_colorscheme 'everforest',
-    priority = 1000,
-    config = function()
-      vim.g.everforest_background = 'hard'
-      vim.g.everforest_enable_italic = 1
-      vim.g.everforest_dim_inactive_windows = 0
-      vim.g.everforest_show_eob = 0
-      vim.g.everforest_diagnostic_text_highlight = 1
-      vim.g.everforest_diagnostic_virtual_text = 'colored'
-      vim.g.everforest_ui_contrast = 'high'
-
-      if vim.g.transparent_background then
-        vim.g.everforest_transparent_background = 2
-      end
-    end,
-  },
-
-  {
-    'sainnhe/gruvbox-material',
-    cond = is_current_colorscheme 'gruvbox-material',
-    priority = 1000,
-    config = function()
-      vim.g.gruvbox_material_background = 'hard'
-      vim.g.gruvbox_material_foreground = 'material'
-      vim.g.gruvbox_material_enable_bold = 1
-      vim.g.gruvbox_material_enable_italic = 1
-      vim.g.gruvbox_material_dim_inactive_windows = 0
-      vim.g.gruvbox_material_menu_selection_background = 'green'
-      vim.g.gruvbox_material_show_eob = 0
-      vim.g.gruvbox_material_diagnostic_text_highlight = 1
-      -- vim.g.gruvbox_material_diagnostic_line_highlight = 1
-      vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
-      -- vim.g.gruvbox_material_statusline_style = 'mix'
-      vim.g.gruvbox_material_ui_contrast = 'high'
-
-      if vim.g.transparent_background then
-        vim.g.gruvbox_material_transparent_background = 2
-      end
-    end,
-  },
-
-  {
     'catppuccin/nvim',
-    cond = is_current_colorscheme 'catppuccin',
     priority = 1000,
     name = 'catppuccin',
     opts = {
+      no_bold = true,
       -- transparent_background = vim.g.transparent_background,
       integrations = {
         aerial = true,
-        alpha = true,
         cmp = true,
         dashboard = true,
         flash = true,
@@ -65,7 +16,6 @@ return {
         headlines = true,
         illuminate = true,
         indent_blankline = { enabled = true },
-        leap = true,
         lsp_trouble = true,
         mason = true,
         markdown = true,
@@ -79,8 +29,6 @@ return {
             information = { 'undercurl' },
           },
         },
-        navic = { enabled = true, custom_bg = 'lualine' },
-        neotest = true,
         neotree = true,
         noice = true,
         notify = true,
@@ -105,7 +53,6 @@ return {
 
   {
     'folke/tokyonight.nvim',
-    cond = is_current_colorscheme 'tokyonight',
     priority = 1000,
     opts = {
       transparent = vim.g.transparent_background,

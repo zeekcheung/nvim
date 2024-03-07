@@ -53,6 +53,7 @@ return {
   -- Markdown preview
   {
     'iamcco/markdown-preview.nvim',
+    enabled = false,
     cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
     build = function()
       local is_win = vim.loop.os_uname().sysname:find 'Windows' ~= nil
@@ -80,6 +81,7 @@ return {
   -- Horizontal highlights
   {
     'lukas-reineke/headlines.nvim',
+    enabled = false,
     opts = function()
       local opts = {}
 

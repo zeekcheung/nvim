@@ -52,8 +52,6 @@ return {
       'williamboman/mason-lspconfig.nvim',
       {
         'j-hui/fidget.nvim',
-        -- enabled = not vim.g.noice_enabled,
-        cond = not vim.g.noice_enabled,
         config = function(_, opts)
           if vim.g.transparent_background then
             opts.notification = { window = { winblend = 0 } }
@@ -61,7 +59,6 @@ return {
           require('fidget').setup(opts)
         end,
       },
-      -- { 'folke/neodev.nvim', opts = { library = { plugins = {} } } },
     },
     opts = {
       -- Options for vim.diagnostic.config()
@@ -219,6 +216,11 @@ return {
     },
     config = function(_, opts)
       opts.format_on_save = function(bufnr)
+        -- Disable with a global or buffer-local variable
+        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+          return
+        end
+
         local format_args = { timeout_ms = 700, quiet = true, lsp_fallback = true }
         -- Disable lsp format for ignored filetypes
         if vim.tbl_contains(opts.lsp_ignore_filetypes, vim.bo[bufnr].filetype) then
@@ -229,6 +231,27 @@ return {
       end
 
       require('conform').setup(opts)
+
+      local create_user_command = vim.api.nvim_create_user_command
+      -- Create `FormatDisable` command to disable format on save
+      create_user_command('FormatDisable', function(args)
+        if args.bang then
+          -- "FormatDisable!" will disable formatting globally
+          vim.g.disable_autoformat = true
+        else
+          vim.b.disable_autoformat = true
+        end
+      end, {
+        desc = 'Disable format on save',
+        bang = true,
+      })
+      -- Create `FormatEnable` command to enable format on save
+      create_user_command('FormatEnable', function()
+        vim.b.disable_autoformat = false
+        vim.g.disable_autoformat = false
+      end, {
+        desc = 'Enable format on save',
+      })
     end,
   },
 

@@ -25,10 +25,10 @@ require('lazy').setup {
     { import = 'plugins.lang.clang' },
     { import = 'plugins.lang.markdown' },
     -- { import = 'plugins.lang.typescript' },
-    { import = 'plugins.lang.rust' },
+    -- { import = 'plugins.lang.rust' },
 
     { import = 'plugins.lang.bash' },
-    { import = 'plugins.lang.powershell' },
+    -- { import = 'plugins.lang.powershell' },
     -- { import = 'plugins.lang.nushell' },
   },
   defaults = {

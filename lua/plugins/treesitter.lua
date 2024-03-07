@@ -56,6 +56,7 @@ return {
         'bash',
         'c',
         'diff',
+        'fish',
         'html',
         'javascript',
         'jsdoc',
@@ -74,6 +75,7 @@ return {
         'typescript',
         'vim',
         'vimdoc',
+        'xml',
         'yaml',
       },
       incremental_selection = {
@@ -117,5 +119,12 @@ return {
     cond = vim.g.sticky_scroll,
     event = { 'BufReadPre', 'BufNewFile' },
     opts = { mode = 'cursor', max_lines = 3 },
+  },
+
+  -- Automatically add closing tags for HTML and JSX
+  {
+    'windwp/nvim-ts-autotag',
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = {},
   },
 }

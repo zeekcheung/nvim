@@ -3,14 +3,6 @@ local M = {}
 
 local icons = require('util.ui').icons
 
-function M.mode()
-  return {
-    'mode',
-    separator = { right = '' },
-    padding = { left = 1, right = 0 },
-  }
-end
-
 function M.branch()
   return {
     'branch',
@@ -67,7 +59,7 @@ end
 function M.fileformat()
   return {
     'fileformat',
-    separator = { left = '' },
+    -- separator = { left = '' },
     padding = { left = 1, right = 2 },
   }
 end
@@ -156,22 +148,6 @@ function M.season()
 
       return status[season]
     end,
-  }
-end
-
-function M.progress()
-  return {
-    'progress',
-    separator = { left = '' },
-    padding = { left = 0, right = 1 },
-  }
-end
-
-function M.localtion()
-  return {
-    'location',
-    separator = { left = '' },
-    padding = { left = 0, right = 1 },
   }
 end
 

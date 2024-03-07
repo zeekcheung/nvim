@@ -6,7 +6,7 @@ local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
 -- Custom highlight group
-local function customize_highlight()
+local function draw_my_highlight()
   local overrided_colorschemes = { 'everforest', 'gruvbox-material', 'gruvbox' }
   local current_colorscheme = vim.g.colorscheme
 
@@ -14,16 +14,11 @@ local function customize_highlight()
   local set_hl = vim.api.nvim_set_hl
 
   local ns_id = 0 -- Namespace id, set to 0 for global
-  local normal_hl = get_hl('Normal', true) -- Normal highlight
 
   -- Override highlight groups for specfic colorschemes
   if vim.tbl_contains(overrided_colorschemes, current_colorscheme) then
     -- Split highlight
     set_hl(ns_id, 'WinSeparator', { bg = 'NONE', fg = '#33333f' })
-
-    -- Neotree highlight
-    set_hl(ns_id, 'NeoTreeNormal', { link = 'Normal' })
-    set_hl(ns_id, 'NeoTreeEndOfBuffer', { link = 'Normal' })
   end
 
   -- Neotree
@@ -31,9 +26,11 @@ local function customize_highlight()
   set_hl(ns_id, 'NeotreeFloatBorder', { bg = neotree_normal_hl.background })
 
   -- Border highlight
+  local normal_hl = get_hl('Normal', true) -- Normal highlight
+  local normal_float_hl = get_hl('NormalFloat', true) -- Normal highlight
   set_hl(ns_id, 'NormalFloat', { link = 'Normal' })
   set_hl(ns_id, 'LspInfoBorder', { link = 'Normal' })
-  set_hl(ns_id, 'FloatBorder', { bg = normal_hl.background, fg = '#555555' })
+  set_hl(ns_id, 'FloatBorder', { fg = '#aaaaaa', bg = normal_hl.background })
 
   -- Bracket highlight
   set_hl(ns_id, 'RainbowDelimiterRed', { fg = '#e67e80' })
@@ -44,30 +41,22 @@ local function customize_highlight()
   set_hl(ns_id, 'RainbowDelimiterViolet', { fg = '#d699b6' })
 end
 
--- Auto setup colorscheme
+-- Setup colorscheme
 autocmd({ 'VimEnter' }, {
-  group = augroup('auto_setup_colorscheme', { clear = true }),
+  group = augroup('setup_colorscheme', { clear = true }),
   callback = function()
-    -- Setup background based on time
-    -- local hour = tonumber(os.date '%H')
-    -- if hour >= 9 and hour < 18 then
-    --   vim.o.background = 'light'
-    -- else
-    --   vim.o.background = 'dark'
-    -- end
-
     -- Setup colorscheme
     vim.cmd('colorscheme ' .. vim.g.colorscheme)
 
-    customize_highlight()
+    draw_my_highlight()
   end,
 })
 
--- Auto change float boarder highlight
+-- Draw my highlight on colorscheme change
 autocmd({ 'ColorScheme' }, {
-  group = augroup('change_float_highlight', { clear = true }),
+  group = augroup('draw_my_highlight', { clear = true }),
   callback = function()
-    customize_highlight()
+    draw_my_highlight()
   end,
 })
 
@@ -79,58 +68,22 @@ autocmd('TextYankPost', {
   end,
 })
 
+-- Jump to last edit position when opening files
+autocmd('BufReadPost', {
+  group = augroup('last_edit_position', { clear = true }),
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
 -- Check if we need to reload the file when it changed
 autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
   group = augroup('checktime', { clear = true }),
   command = 'checktime',
-})
-
--- Resize splits if window got resized
-autocmd({ 'VimResized' }, {
-  group = augroup('resize_splits', { clear = true }),
-  callback = function()
-    local current_tab = vim.fn.tabpagenr()
-    vim.cmd 'tabdo wincmd ='
-    vim.cmd('tabnext ' .. current_tab)
-  end,
-})
-
--- Wrap and check for spell in text filetypes
-autocmd('FileType', {
-  group = augroup('wrap_spell', { clear = true }),
-  pattern = { 'gitcommit', 'markdown' },
-  callback = function()
-    vim.opt_local.wrap = true
-    vim.opt_local.spell = true
-  end,
-})
-
--- Change indent size for different filetypes
-autocmd('FileType', {
-  group = augroup('change_options', { clear = true }),
-  pattern = { 'c', 'h', 'cpp', 'nu' },
-  callback = function()
-    vim.opt_local.tabstop = 4
-    vim.opt_local.shiftwidth = 4
-  end,
-})
-
--- Disable conceal of json
-autocmd('FileType', {
-  group = augroup('json_conceal', { clear = true }),
-  pattern = { 'json', 'jsonc', 'json5' },
-  callback = function()
-    vim.wo.conceallevel = 0
-  end,
-})
-
--- Change json filetype to jsonc
-autocmd({ 'BufRead', 'BufNewFile' }, {
-  group = augroup('json_to_jsonc', { clear = true }),
-  pattern = '*.json',
-  callback = function()
-    vim.bo.filetype = 'jsonc'
-  end,
 })
 
 -- Auto create dir when saving a file, in case some intermediate directory does not exist
@@ -145,26 +98,13 @@ autocmd({ 'BufWritePre' }, {
   end,
 })
 
--- Remove extra new lines at the end of formatted PowerShell files
-autocmd('BufWritePost', {
-  group = augroup('powershell_newline', { clear = true }),
-  pattern = '*.ps1',
+-- Resize splits if window got resized
+autocmd({ 'VimResized' }, {
+  group = augroup('resize_splits', { clear = true }),
   callback = function()
-    local winview = vim.fn.winsaveview()
-    vim.cmd [[%s/\n\%$//ge]]
-    vim.fn.winrestview(winview)
-  end,
-})
-
--- Jump to last edit position when opening files
-autocmd('BufReadPost', {
-  group = augroup('last_edit_position', { clear = true }),
-  callback = function()
-    local mark = vim.api.nvim_buf_get_mark(0, '"')
-    local lcount = vim.api.nvim_buf_line_count(0)
-    if mark[1] > 0 and mark[1] <= lcount then
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
-    end
+    local current_tab = vim.fn.tabpagenr()
+    vim.cmd 'tabdo wincmd ='
+    vim.cmd('tabnext ' .. current_tab)
   end,
 })
 
@@ -190,5 +130,54 @@ autocmd('FileType', {
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
+  end,
+})
+
+-- Wrap and check for spell in text filetypes
+autocmd('FileType', {
+  group = augroup('wrap_spell', { clear = true }),
+  pattern = { 'gitcommit', 'markdown' },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.spell = true
+  end,
+})
+
+-- Change indent size for different filetypes
+autocmd('FileType', {
+  group = augroup('change_options', { clear = true }),
+  pattern = { 'c', 'h', 'cpp', 'nu', 'fish' },
+  callback = function()
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+  end,
+})
+
+-- Disable conceal of json
+autocmd('FileType', {
+  group = augroup('json_conceal', { clear = true }),
+  pattern = { 'json', 'jsonc', 'json5' },
+  callback = function()
+    vim.wo.conceallevel = 0
+  end,
+})
+
+-- Change json filetype to jsonc
+autocmd({ 'BufRead', 'BufNewFile' }, {
+  group = augroup('json_to_jsonc', { clear = true }),
+  pattern = '*.json',
+  callback = function()
+    vim.bo.filetype = 'jsonc'
+  end,
+})
+
+-- Remove extra new lines at the end of formatted PowerShell files
+autocmd('BufWritePost', {
+  group = augroup('powershell_newline', { clear = true }),
+  pattern = '*.ps1',
+  callback = function()
+    local winview = vim.fn.winsaveview()
+    vim.cmd [[%s/\n\%$//ge]]
+    vim.fn.winrestview(winview)
   end,
 })

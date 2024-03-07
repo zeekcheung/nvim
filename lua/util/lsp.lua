@@ -4,8 +4,8 @@ local M = {}
 -- lsp root patterns
 M.root_patterns = { '.git', 'lua' }
 
----@param on_attach fun(client, buffer)
 -- Call on_acttach(client, buffer) when LspAttach
+---@param on_attach fun(client, buffer)
 function M.on_lsp_attach(on_attach)
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
@@ -16,8 +16,8 @@ function M.on_lsp_attach(on_attach)
   })
 end
 
----@param opts? {force?:boolean}
 -- Format current buffer
+---@param opts? {force?:boolean}
 function M.format(opts)
   local buf = vim.api.nvim_get_current_buf()
   if vim.b.autoformat == false and not (opts and opts.force) then
