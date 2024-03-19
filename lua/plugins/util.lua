@@ -122,15 +122,15 @@ return {
       enable_git_status = true,
       sources = { 'filesystem', 'buffers', 'git_status', 'document_symbols' },
       source_selector = {
-        winbar = false, -- toggle to show selector on winbar
+        winbar = true, -- toggle to show selector on winbar
         content_layout = 'center',
         tabs_layout = 'equal',
-        show_separator_on_edge = true,
+        show_separator_on_edge = false,
         sources = {
-          { source = 'filesystem' },
-          { source = 'buffers' },
-          { source = 'git_status' },
-          -- { source = "document_symbols" },
+          { source = 'filesystem', display_name = '󰉓' },
+          { source = 'buffers', display_name = '󰈚' },
+          { source = 'git_status', display_name = '󰊢' },
+          { source = 'document_symbols', display_name = '' },
         },
       },
       open_files_do_not_replace_types = { 'terminal', 'Trouble', 'qf', 'Outline' },
@@ -183,11 +183,14 @@ return {
       },
 
       window = {
+        position = 'left',
+        width = 30,
         mappings = {
-          ['<Tab>'] = 'prev_source',
-          ['<S-Tab>'] = 'next_source',
+          ['<Tab>'] = 'next_source',
+          ['<S-Tab>'] = 'prev_source',
           ['s'] = 'none', -- disable default mappings
           ['<leftrelease>'] = 'open', -- open node with single left click
+          ['za'] = 'toggle_node',
         },
       },
     },
