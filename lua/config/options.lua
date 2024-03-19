@@ -16,17 +16,22 @@ opt.undolevels = 10000
 
 -- appearance
 opt.termguicolors = true
-opt.number = true
-opt.relativenumber = true
 opt.cursorline = true
 opt.wrap = true
-opt.showmode = false
-opt.signcolumn = 'yes'
-opt.conceallevel = 2
--- opt.laststatus = 3
-opt.cmdheight = 0
 opt.winminwidth = 5
 opt.helpheight = 10
+
+-- conceal
+opt.conceallevel = 2
+opt.concealcursor = 'n'
+
+-- statusline
+opt.number = true
+opt.relativenumber = true
+opt.signcolumn = 'yes'
+opt.foldcolumn = '0'
+opt.laststatus = 3
+opt.cmdheight = 0
 
 -- indent
 opt.shiftround = true

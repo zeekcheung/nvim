@@ -63,6 +63,7 @@ return {
     opts = {
       -- Options for vim.diagnostic.config()
       diagnostics = {
+        -- signs = false,
         underline = true,
         update_in_insert = false,
         -- virtual_text = {

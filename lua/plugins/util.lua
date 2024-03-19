@@ -122,7 +122,7 @@ return {
       enable_git_status = true,
       sources = { 'filesystem', 'buffers', 'git_status', 'document_symbols' },
       source_selector = {
-        winbar = true, -- toggle to show selector on winbar
+        winbar = true,
         content_layout = 'center',
         tabs_layout = 'equal',
         show_separator_on_edge = false,
@@ -134,23 +134,6 @@ return {
         },
       },
       open_files_do_not_replace_types = { 'terminal', 'Trouble', 'qf', 'Outline' },
-      filesystem = {
-        bind_to_cwd = false,
-        follow_current_file = { enabled = true },
-        use_libuv_file_watcher = true,
-        filtered_items = {
-          visible = true,
-          show_hidden_count = true,
-          hide_dotfiles = false,
-          hide_gitignored = false,
-          hide_by_name = {
-            -- '.git',
-            -- '.DS_Store',
-            -- 'thumbs.db',
-          },
-          never_show = {},
-        },
-      },
       default_component_configs = {
         indent = {
           with_expanders = false, -- if nil and file nesting is enabled, will enable expanders
@@ -181,7 +164,6 @@ return {
           },
         },
       },
-
       window = {
         position = 'left',
         width = 30,
@@ -193,7 +175,23 @@ return {
           ['za'] = 'toggle_node',
         },
       },
-
+      filesystem = {
+        bind_to_cwd = false,
+        follow_current_file = { enabled = true },
+        use_libuv_file_watcher = true,
+        filtered_items = {
+          visible = true,
+          show_hidden_count = true,
+          hide_dotfiles = false,
+          hide_gitignored = false,
+          hide_by_name = {
+            -- '.git',
+            -- '.DS_Store',
+            -- 'thumbs.db',
+          },
+          never_show = {},
+        },
+      },
       buffers = {
         window = {
           mappings = {
@@ -201,9 +199,21 @@ return {
           },
         },
       },
+
+      event_handlers = {
+        {
+          event = 'neo_tree_buffer_enter',
+          handler = function()
+            -- hide signcolumn
+            vim.opt.signcolumn = 'no'
+          end,
+        },
+      },
     },
     config = function(_, opts)
       require('neo-tree').setup(opts)
+
+      -- refresh git status after lazygit is closed
       vim.api.nvim_create_autocmd('TermClose', {
         pattern = '*lazygit',
         callback = function()
@@ -221,6 +231,7 @@ return {
     enabled = true,
     event = 'VeryLazy',
     init = function()
+      vim.opt.showmode = false
       vim.g.lualine_laststatus = vim.o.laststatus
       if vim.fn.argc(-1) > 0 then
         -- set an empty statusline till lualine loads
@@ -280,79 +291,44 @@ return {
   -- Status column
   {
     'luukvbaal/statuscol.nvim',
-    enabled = true,
-    event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      'lewis6991/gitsigns.nvim',
-    },
-    config = function()
-      local builtin = require 'statuscol.builtin'
-
-      local is_normal_buf = function(args)
-        local buf = vim.api.nvim_win_get_buf(args.win)
-        return vim.bo[buf].buftype == ''
-      end
-
-      require('statuscol').setup {
-        relculright = true,
-        segments = {
-          -- fold column
-          {
-            text = { builtin.foldfunc, ' ' },
-            click = 'v:lua.ScFa',
-            condition = {
-              is_normal_buf,
-              true,
-            },
-          },
-          -- diagnostic sign
-          -- {
-          --   sign = {
-          --     -- "Dap*", "Diagnostic*"
-          --     name = { '.*' },
-          --     -- "Dap*", "Diagnostic*"
-          --     namespace = { 'Diagnostic*', '.*' },
-          --     maxwidth = 1,
-          --     colwidth = 2,
-          --   },
-          --   click = 'v:lua.ScSa',
-          --   condition = { is_normal_buf, is_normal_buf },
-          -- },
-          -- line number
-          {
-            text = { builtin.lnumfunc, ' ' },
-            click = 'v:lua.ScLa',
-          },
-          -- git sign
-          {
-            sign = {
-              name = { 'GitSigns*' },
-              namespace = { 'gitsigns*' },
-              maxwidth = 1,
-              colwidth = 2,
-            },
-            click = 'v:lua.ScSa',
-            condition = { is_normal_buf },
-          },
-        },
-        ft_ignore = {
-          'Trouble',
-        },
-        clickhandlers = {
-          FoldOther = false,
-        },
-      }
-
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'ResessionLoadPost',
+    branch = vim.fn.has 'nvim-0.10' == 1 and '0.10' or 'main',
+    init = function()
+      -- auto change numberwidth based on the lines of current buffer
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = '*',
         callback = function()
-          for _, win in ipairs(vim.api.nvim_list_wins()) do
-            if vim.bo[vim.api.nvim_win_get_buf(win)].buftype == '' then
-              vim.wo[win].stc = '%!v:lua.StatusCol()'
-            end
+          -- get the lines of current buffer
+          local lines = vim.api.nvim_buf_line_count(0)
+          if lines > 100 then
+            vim.opt_local.numberwidth = 5
+          elseif lines > 1000 then
+            vim.opt_local.numberwidth = 6
           end
         end,
       })
+    end,
+    config = function()
+      local builtin = require 'statuscol.builtin'
+      require('statuscol').setup {
+        relculright = true,
+        segments = {
+          {
+            text = { builtin.foldfunc },
+            condition = { vim.opt.foldcolumn:get() ~= '0' },
+            click = 'v:lua.ScFa',
+          },
+          -- {
+          --   sign = { namespace = { 'diagnostic' }, maxwidth = 1, auto = true },
+          --   click = 'v:lua.ScSa',
+          -- },
+          {
+            text = { builtin.lnumfunc, ' ' },
+            condition = { true, builtin.not_empty },
+            click = 'v:lua.ScLa',
+          },
+          { text = { '%s' }, click = 'v:lua.ScSa' },
+        },
+      }
     end,
   },
 
