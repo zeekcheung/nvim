@@ -26,6 +26,7 @@ opt.conceallevel = 2
 -- opt.laststatus = 3
 opt.cmdheight = 0
 opt.winminwidth = 5
+opt.helpheight = 10
 
 -- indent
 opt.shiftround = true

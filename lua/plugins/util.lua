@@ -93,13 +93,13 @@ return {
     cmd = 'Neotree',
     keys = {
       {
-        '<C-e>',
+        '<leader>e',
         function()
           require('neo-tree.command').execute { toggle = true, dir = vim.loop.cwd() }
         end,
         desc = 'Explorer',
       },
-      { '<leader>e', '<C-e>', desc = 'Explorer', remap = true },
+      -- { '<C-e>', '<leader>e', desc = 'Explorer', remap = true },
     },
     deactivate = function()
       vim.cmd [[Neotree close]]
@@ -191,6 +191,14 @@ return {
           ['s'] = 'none', -- disable default mappings
           ['<leftrelease>'] = 'open', -- open node with single left click
           ['za'] = 'toggle_node',
+        },
+      },
+
+      buffers = {
+        window = {
+          mappings = {
+            ['d'] = 'buffer_delete',
+          },
         },
       },
     },
