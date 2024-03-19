@@ -372,6 +372,20 @@ return {
           require('telescope').load_extension 'fzf'
         end,
       },
+      {
+        'ahmedkhalf/project.nvim',
+        event = 'VeryLazy',
+        opts = {
+          manual_mode = false,
+        },
+        config = function(_, opts)
+          require('project_nvim').setup(opts)
+          require('telescope').load_extension 'projects'
+        end,
+        keys = {
+          { '<leader>fp', '<Cmd>Telescope projects<CR>', desc = 'Projects' },
+        },
+      },
     },
     opts = function()
       local actions = require 'telescope.actions'
@@ -852,24 +866,6 @@ return {
       { "<leader>qs", function() require("persistence").load() end,                desc = "Restore Session" },
       { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
       { "<leader>qd", function() require("persistence").stop() end,                desc = "Don't Save Current Session" },
-    },
-  },
-
-  -- Projects manager
-  {
-    'ahmedkhalf/project.nvim',
-    event = 'VeryLazy',
-    opts = {
-      manual_mode = false,
-    },
-    config = function(_, opts)
-      require('project_nvim').setup(opts)
-      require('util').on_load('telescope.nvim', function()
-        require('telescope').load_extension 'projects'
-      end)
-    end,
-    keys = {
-      { '<leader>fp', '<Cmd>Telescope projects<CR>', desc = 'Projects' },
     },
   },
 
