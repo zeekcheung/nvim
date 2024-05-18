@@ -1,4 +1,6 @@
-local icons = require('util.ui').icons
+local Ui = require 'util.ui'
+local icons = Ui.icons
+local border_with_highlight = Ui.border_with_highlight
 
 return {
 
@@ -9,6 +11,7 @@ return {
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
+      -- 'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
@@ -48,8 +51,8 @@ return {
             if cmp.visible() then
               -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
               cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-            -- this way you will only jump inside the snippet region
+              -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+              -- this way you will only jump inside the snippet region
             elseif luasnip.expand_or_jumpable() then
               luasnip.expand_or_jump()
             elseif has_words_before() then
@@ -68,13 +71,13 @@ return {
             end
           end, { 'i', 's' }),
         },
-        sources = cmp.config.sources({
+        sources = {
           { name = 'nvim_lsp' },
+          -- { name = 'nvim_lsp_signature_help' },
           { name = 'luasnip' },
-          { name = 'path' },
-        }, {
           { name = 'buffer' },
-        }),
+          { name = 'path' },
+        },
         formatting = {
           format = function(_, item)
             local kind_icons = icons.kinds
@@ -85,7 +88,7 @@ return {
           end,
         },
         experimental = {
-          ghost_text = false,
+          ghost_text = not vim.g.codeium_plugin_enabled,
         },
         sorting = defaults.sorting,
         performance = {
@@ -95,18 +98,20 @@ return {
         },
       }
 
-      if vim.g.cmp_custom_border then
-        opts.window = {
-          completion = {
-            border = vim.g.border_style,
-            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
-          },
-          documentation = {
-            border = vim.g.border_style,
-            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
-          },
-        }
-      end
+      opts.window = {
+        completion = {
+          side_padding = 1,
+          -- border = vim.g.cmp_border,
+          border = border_with_highlight 'CmpBorder',
+          winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
+          scrollbar = false,
+        },
+        documentation = {
+          border = border_with_highlight 'CmpDocBorder',
+          winhighlight = 'Normal:CmpDoc',
+        },
+        -- documentation = cmp.config.disable,
+      }
 
       return opts
     end,
@@ -153,7 +158,9 @@ return {
   {
     'L3MON4D3/LuaSnip',
     event = 'InsertEnter',
-    build = (not jit.os:find 'Windows') and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp" or nil,
+    build = (not jit.os:find 'Windows')
+        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
+      or nil,
     dependencies = {
       'rafamadriz/friendly-snippets',
       event = 'InsertEnter',
@@ -165,5 +172,20 @@ return {
       history = true,
       delete_check_events = 'TextChanged',
     },
+  },
+
+  -- Auto pairs
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    opts = {},
+    config = function(_, opts)
+      require('nvim-autopairs').setup(opts)
+      -- Insert `(` after select function or method item
+      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+      local cmp = require 'cmp'
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+    end,
   },
 }

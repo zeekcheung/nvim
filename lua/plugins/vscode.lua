@@ -6,8 +6,6 @@ local enabled = {
   'lazy.nvim',
   'nvim-treesitter',
   'nvim-treesitter-textobjects',
-  'flash.nvim',
-  'mini.ai',
   'mini.surround',
 }
 
@@ -25,11 +23,5 @@ return {
       highlight = { enable = false },
       indent = { enable = false },
     },
-  },
-  {
-    'folke/flash.nvim',
-    init = function()
-      vim.api.nvim_set_hl(0, 'FlashLabel', { fg = '#f9fafe', bg = '#ff007c', italic = true, bold = true })
-    end,
   },
 }
