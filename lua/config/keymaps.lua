@@ -1,22 +1,24 @@
--- NOTE:
--- Setting Keymaps
--- See `:h vim.keymap.set()` for more info
-
-local Util = require 'util'
-local map = Util.silent_map
+local map = require('util').silent_map
+local smart_resize_window = require('util.resize').smart_resize_window
+local open_terminal = require('util.terminal').open_terminal
+local open_lazygit = require('util.terminal').open_lazygit
 
 -- Better escape
 map('i', 'jj', '<esc>', { desc = 'Better Escape' })
 
 -- Better indenting
-map('v', '<', '<gv')
-map('v', '>', '>gv')
+map('v', '<', '<gv', { desc = 'Indent left' })
+map('v', '>', '>gv', { desc = 'Indent right' })
 
 -- Better up/down when lines wrap
 map({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true })
 map({ 'n', 'x' }, '<Down>', "v:count == 0 ? 'gj' : 'j'", { expr = true })
 map({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true })
 map({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { expr = true })
+
+-- Completion
+map('i', [[<Tab>]], [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
+map('i', [[<S-Tab>]], [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
 
 -- Misc
 map('v', '<C-c>', '"+y', { desc = 'Copy selection' })
@@ -38,7 +40,7 @@ map('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move up' })
 map('v', '<A-j>', ":m '>+1<cr>gv=gv", { desc = 'Move down' })
 map('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
 
--- Split
+-- Window splits
 map('n', '|', '<cmd>split<cr>', { desc = 'Horizontal Split' })
 map('n', '\\', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
 
@@ -48,6 +50,16 @@ map('n', '<C-j>', '<C-w>j', { desc = 'Go to lower window', remap = true })
 map('n', '<C-k>', '<C-w>k', { desc = 'Go to upper window', remap = true })
 map('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', remap = true })
 
+-- Window resizing
+-- stylua: ignore
+map('n', '<C-Left>', function() smart_resize_window 'left' end, { desc = 'Resize window left' })
+-- stylua: ignore
+map('n', '<C-Right>', function() smart_resize_window 'right' end, { desc = 'Resize window right' })
+-- stylua: ignore
+map('n', '<C-Up>', function() smart_resize_window 'up' end, { desc = 'Resize window up' })
+-- stylua: ignore
+map('n', '<C-Down>', function() smart_resize_window 'down' end, { desc = 'Resize window down' })
+
 -- Buffers
 map('n', '<Tab>', '<cmd>bn<cr>', { desc = 'Next buffer' })
 map('n', '<S-Tab>', '<cmd>bp<cr>', { desc = 'Previous buffer' })
@@ -55,18 +67,30 @@ map('n', '<leader>bd', '<cmd>bd<cr>', { desc = 'Delete current buffer' })
 map('n', '<leader>bo', '<cmd>silent! %bd|e#|bd#<cr>', { desc = 'Delete other buffers' })
 
 -- Tabs
-map('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New tab' })
-map('n', '<leader><tab>n', '<cmd>tabnext<cr>', { desc = 'Next tab' })
-map('n', '<leader><tab>p', '<cmd>tabprevious<cr>', { desc = 'Previous tab' })
-map('n', '<leader><tab>f', '<cmd>tabfirst<cr>', { desc = 'First tab' })
-map('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last tab' })
-map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close current tab' })
-map('n', '<leader><tab>o', '<cmd>tabonly<cr>', { desc = 'Close other tab' })
+map('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New Tab' })
+map('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last Tab' })
+map('n', '<leader><tab>f', '<cmd>tabfirst<cr>', { desc = 'First Tab' })
+map('n', '<leader><tab>n', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
+map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
+map('n', '<leader><tab>p', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
 
 -- Terminal
 map('t', '<esc>', [[<C-\><C-n>]], { desc = 'Escape terminal mode' })
-map('n', '<leader>th', '<cmd>term<cr>', { desc = 'Open horizontal terminal' })
-map('n', '<leader>tv', '<cmd>vert term<cr>', { desc = 'Open vertical terminal' })
+map('n', '<leader>th', function()
+  open_terminal 'horizontal'
+end, { desc = 'Open horizontal terminal' })
+map('n', '<leader>tv', function()
+  open_terminal 'vertical'
+end, { desc = 'Open vertical terminal' })
+map('n', '<leader>tf', function()
+  open_terminal 'float'
+end, { desc = 'Open floating terminal' })
+map('n', '<leader>gg', function()
+  open_lazygit()
+end, { desc = 'Open lazygit' })
+
+-- Netrw
+map('n', '<leader>e', '<cmd>Lex<cr>', { desc = 'Open netrw' })
 
 -- Quit
 map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit all' })
@@ -82,31 +106,8 @@ map(
   { desc = 'Redraw / clear hlsearch / diff update' }
 )
 
--- Diagnostic
-local diagnostic_goto = function(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  severity = severity and vim.diagnostic.severity[severity] or nil
-  return function()
-    ---@diagnostic disable-next-line: missing-fields
-    go { severity = severity }
-  end
-end
-map('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Line Diagnostics' })
-map('n', ']d', diagnostic_goto(true), { desc = 'Next Diagnostic' })
-map('n', '[d', diagnostic_goto(false), { desc = 'Prev Diagnostic' })
-map('n', ']e', diagnostic_goto(true, 'ERROR'), { desc = 'Next Error' })
-map('n', '[e', diagnostic_goto(false, 'ERROR'), { desc = 'Prev Error' })
-map('n', ']w', diagnostic_goto(true, 'WARN'), { desc = 'Next Warning' })
-map('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Prev Warning' })
-
 -- Lazy
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
-
--- Source
-map('n', '<leader>s', function()
-  vim.cmd 'so %'
-  print('Sourcing ' .. vim.fn.expand '%')
-end, { desc = 'Source current file' })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map('n', 'n', "'Nn'[v:searchforward].'zv'", { expr = true, desc = 'Next search result' })
@@ -115,6 +116,3 @@ map('o', 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next search result
 map('n', 'N', "'nN'[v:searchforward].'zv'", { expr = true, desc = 'Prev search result' })
 map('x', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result' })
 map('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev search result' })
-
--- Netrw
-map('n', '<leader>e', '<cmd>Lex<cr>', { desc = 'toggle netrw' })

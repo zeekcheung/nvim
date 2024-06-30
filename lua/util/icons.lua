@@ -1,22 +1,6 @@
-local M = {}
-
 -- NOTE: Search more icons: https://www.nerdfonts.com/cheat-sheet
-M.icons = {
-  misc = {
-    dots = '󰇘',
-  },
-  dap = {
-    Stopped = { '󰁕 ', 'DiagnosticWarn', 'DapStoppedLine' },
-    Breakpoint = ' ',
-    BreakpointCondition = ' ',
-    BreakpointRejected = { ' ', 'DiagnosticError' },
-    LogPoint = '.>',
-  },
+return {
   diagnostics = {
-    -- Error = '● ',
-    -- Warn = '● ',
-    -- Hint = '● ',
-    -- Info = '● ',
     Error = ' ',
     Warn = ' ',
     Hint = ' ',
@@ -26,16 +10,6 @@ M.icons = {
     modified = ' ',
     readOnly = ' ',
     default = '󰈙 ',
-  },
-  fold = {
-    closed = ' ',
-    opened = ' ',
-    separator = ' ',
-  },
-  folder = {
-    closed = ' ',
-    empty = ' ',
-    open = ' ',
   },
   git = {
     added = ' ',
@@ -83,6 +57,7 @@ M.icons = {
     Snippet = ' ',
     String = ' ',
     Struct = '󰆼 ',
+    Supermaven = ' ',
     TabNine = '󰏚 ',
     Text = ' ',
     TypeParameter = ' ',
@@ -91,21 +66,3 @@ M.icons = {
     Variable = '󰀫 ',
   },
 }
-
----Border with highlight
----@param hl_name string Highlight name
----@return table
-function M.border_with_highlight(hl_name)
-  return {
-    { '╭', hl_name },
-    { '─', hl_name },
-    { '╮', hl_name },
-    { '│', hl_name },
-    { '╯', hl_name },
-    { '─', hl_name },
-    { '╰', hl_name },
-    { '│', hl_name },
-  }
-end
-
-return M

@@ -1,20 +1,14 @@
-local Ui = require 'util.ui'
-local icons = Ui.icons
-local border_with_highlight = Ui.border_with_highlight
+local border_with_highlight = require('util.highlight').border_with_highlight
 
 return {
-
   -- Completion
   {
     'hrsh7th/nvim-cmp',
-    version = false, -- last release is way too old
-    event = { 'InsertEnter', 'CmdlineEnter' },
+    event = 'InsertEnter',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
-      -- 'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
       'saadparwaiz1/cmp_luasnip',
     },
     opts = function()
@@ -28,19 +22,33 @@ return {
       local luasnip = require 'luasnip'
       local defaults = require 'cmp.config.default'()
 
-      vim.api.nvim_set_hl(0, 'CmpGhostText', { link = 'Comment', default = true })
-
-      local opts = {
-        completion = {
-          -- completeopt = "menu,menuone,noselect",
-          completeopt = 'menu,menuone,noinsert',
-        },
+      return {
+        completion = { completeopt = 'menu,menuone,noinsert' },
         snippet = {
           expand = function(args)
             require('luasnip').lsp_expand(args.body)
           end,
         },
-
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+          { name = 'buffer' },
+          { name = 'path' },
+        },
+        window = {
+          completion = {
+            side_padding = 1,
+            -- border = vim.g.cmp_border,
+            border = border_with_highlight 'CmpBorder',
+            winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
+            scrollbar = false,
+          },
+          documentation = {
+            border = border_with_highlight 'CmpDocBorder',
+            winhighlight = 'Normal:CmpDoc',
+          },
+          -- documentation = cmp.config.disable,
+        },
         mapping = cmp.mapping.preset.insert {
           ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
           ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
@@ -71,24 +79,10 @@ return {
             end
           end, { 'i', 's' }),
         },
-        sources = {
-          { name = 'nvim_lsp' },
-          -- { name = 'nvim_lsp_signature_help' },
-          { name = 'luasnip' },
-          { name = 'buffer' },
-          { name = 'path' },
-        },
-        formatting = {
-          format = function(_, item)
-            local kind_icons = icons.kinds
-            if kind_icons[item.kind] then
-              item.kind = kind_icons[item.kind] .. item.kind
-            end
-            return item
-          end,
-        },
         experimental = {
-          ghost_text = not vim.g.codeium_plugin_enabled,
+          ghost_text = {
+            hg_group = 'CmpGhostText',
+          },
         },
         sorting = defaults.sorting,
         performance = {
@@ -96,32 +90,62 @@ return {
           confirm_resolve_timeout = 0,
           max_view_entries = 7,
         },
-      }
-
-      opts.window = {
-        completion = {
-          side_padding = 1,
-          -- border = vim.g.cmp_border,
-          border = border_with_highlight 'CmpBorder',
-          winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
-          scrollbar = false,
+        formatting = {
+          format = function(_, item)
+            local icons = require('util.icons').kinds
+            if icons[item.kind] then
+              item.kind = icons[item.kind] .. item.kind
+            end
+            return item
+          end,
         },
-        documentation = {
-          border = border_with_highlight 'CmpDocBorder',
-          winhighlight = 'Normal:CmpDoc',
-        },
-        -- documentation = cmp.config.disable,
       }
-
-      return opts
     end,
     config = function(_, opts)
-      for _, source in ipairs(opts.sources) do
-        source.group_index = source.group_index or 1
-      end
-
       local cmp = require 'cmp'
       cmp.setup(opts)
+
+      -- insert `(` after select function or method item
+      cmp.event:on('confirm_done', function(event)
+        local entry = event.entry
+        local item = entry:get_completion_item()
+
+        if item.kind == cmp.lsp.CompletionItemKind.Function or item.kind == cmp.lsp.CompletionItemKind.Method then
+          vim.api.nvim_put({ '()' }, 'c', true, false)
+        end
+      end)
+    end,
+  },
+
+  -- Snippets
+  {
+    'L3MON4D3/LuaSnip',
+    -- enabled = vim.fn.has 'nvim-0.10' ~= 1,
+    event = 'InsertEnter',
+    ---@diagnostic disable-next-line: undefined-global
+    build = (not jit.os:find 'Windows')
+        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
+      or nil,
+    dependencies = {
+      'rafamadriz/friendly-snippets',
+      event = 'InsertEnter',
+      config = function()
+        require('luasnip.loaders.from_vscode').lazy_load()
+      end,
+    },
+    opts = {
+      history = true,
+      delete_check_events = 'TextChanged',
+    },
+  },
+
+  -- Command line completion
+  {
+    'hrsh7th/cmp-cmdline',
+    event = 'CmdlineEnter',
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    config = function()
+      local cmp = require 'cmp'
 
       -- `/` cmdline setup.
       cmp.setup.cmdline('/', {
@@ -154,38 +178,83 @@ return {
     end,
   },
 
-  -- Snippets
+  -- Codeium
   {
-    'L3MON4D3/LuaSnip',
-    event = 'InsertEnter',
-    build = (not jit.os:find 'Windows')
-        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
-      or nil,
+    'Exafunction/codeium.vim',
+    enabled = true,
+    event = 'VeryLazy',
     dependencies = {
-      'rafamadriz/friendly-snippets',
-      event = 'InsertEnter',
-      config = function()
-        require('luasnip.loaders.from_vscode').lazy_load()
-      end,
+      {
+        'nvim-cmp',
+        opts = function(_, opts)
+          opts.experimental.ghost_text = false
+        end,
+      },
     },
+    config = function()
+      vim.keymap.set('i', '<C-f>', function()
+        return vim.fn['codeium#Accept']()
+      end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-.>', function()
+        return vim.fn['codeium#CycleCompletions'](1)
+      end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-,>', function()
+        return vim.fn['codeium#CycleCompletions'](-1)
+      end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-l>', function()
+        return vim.fn['codeium#Clear']()
+      end, { expr = true, silent = true })
+    end,
+  },
+
+  {
+    'Exafunction/codeium.nvim',
+    enabled = false,
+    event = 'VeryLazy',
+    cmd = 'Codeium',
     opts = {
-      history = true,
-      delete_check_events = 'TextChanged',
+      enable_chat = true,
+    },
+    dependencies = {
+      {
+        'nvim-cmp',
+        opts = function(_, opts)
+          opts.experimental.ghost_text = false
+          table.insert(opts.sources, 1, {
+            name = 'codeium',
+            group_index = 1,
+            priority = 100,
+          })
+        end,
+      },
     },
   },
 
-  -- Auto pairs
+  -- Supermaven
   {
-    'windwp/nvim-autopairs',
-    event = 'InsertEnter',
-    dependencies = { 'hrsh7th/nvim-cmp' },
-    opts = {},
-    config = function(_, opts)
-      require('nvim-autopairs').setup(opts)
-      -- Insert `(` after select function or method item
-      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-      local cmp = require 'cmp'
-      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-    end,
+    'supermaven-inc/supermaven-nvim',
+    enabled = false,
+    event = 'VeryLazy',
+    dependencies = {
+      {
+        'nvim-cmp',
+        opts = function(_, opts)
+          opts.experimental.ghost_text = false
+          -- table.insert(opts.sources, 1, {
+          --   name = 'supermaven',
+          --   group_index = 1,
+          --   priority = 100,
+          -- })
+        end,
+      },
+    },
+    opts = {
+      keymaps = {
+        accept_suggestion = '<C-f>',
+        accept_word = '<A-f>',
+        clear_suggestion = '<C-l>',
+      },
+      -- disable_inline_completion = true,
+    },
   },
 }
